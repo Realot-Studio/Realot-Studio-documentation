@@ -1,0 +1,13 @@
+<!--meta {"title": "Save data", "description": "The save global: get/set/delete, save slots, and flushing writes.", "lede": "The save global: get/set/delete, save slots, and flushing writes."} -->
+<h2 id="overview">Overview</h2><p><code>save</code> is a global backed by IndexedDB — the way to make a game remember things across page refreshes and browser restarts, unlike <code>global</code> (see Timers, state &amp; messaging), which resets on every reload.</p><h2 id="basic-reads-and-writes">Basic reads and writes</h2><pre><code>save.set("highScore", 4200);
+var best = save.get("highScore") ?? 0;
+save.has("checkpoint");
+save.delete("temporaryBuff");
+save.keys(); // every key currently stored
+save.clear(); // wipe the current slot</code></pre><h2 id="save-slots">Save slots</h2><pre><code>await save.load("slot2"); // switch to a different save file
+save.slot; // the currently active slot name
+save.listSlots();
+save.deleteSlot("slot3");</code></pre><h2 id="flushing-readiness">Flushing &amp; readiness</h2><p><code>save.isReady</code> reflects whether the store has finished its initial load from IndexedDB. Writes are coalesced and flushed asynchronously; call <code>save.flushNow()</code> if you need a write to be durably committed before doing something else (e.g. right before <code>scene.load()</code> on a level transition). <code>save.onError(callback)</code> registers a handler for storage failures (e.g. a full or blocked IndexedDB).</p><h2 id="example-persistent-high-score">Example: persistent high score</h2><pre><code>function onDestroy() {
+  var best = save.get("highScore") ?? 0;
+  if (global.score &gt; best) save.set("highScore", global.score);
+}</code></pre>

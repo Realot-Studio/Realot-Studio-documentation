@@ -1,0 +1,178 @@
+<!--meta {"title": "Script API cookbook", "description": "Concrete Realot Studio script examples with setup, placement, required components, options, expected behavior, and common mistakes.", "lede": "Concrete Realot Studio script examples with setup, placement, required components, options, expected behavior, and common mistakes."} -->
+<h2 id="how-to-use">How to use the cookbook</h2>
+<p>Every example assumes a <strong>Script</strong> component exists on the entity that owns the code. In the editor, select the entity in the left Hierarchy, then use the right Inspector to open its <strong>Script</strong> component. Paste the example into the script's lifecycle function or adapt it to your existing script.</p>
+<div class="callout info"><strong>Read API reference + recipe together</strong> The API reference tells you what a function/property means. The recipes show when to call it, what object should own the script, and what other setup the feature needs.</div>
+<h2 id="finding-and-moving">1. Find an entity and move toward it</h2>
+<div class="api-example-grid"><div class="api-example"><h3>Setup</h3><p>Create an entity named <code>Target</code>. Put this script on the enemy.</p></div><div class="api-example"><h3>Code</h3><pre><code>function onUpdate(dt) {
+  var target = findFirst("Target");
+  if (!target) return;
+  this.navMoveToward(target.x, target.y, 140);
+}</code></pre></div></div>
+<p><code>findFirst(name)</code> returns one matching entity or <code>null</code>. <code>navMoveToward()</code> supplies the navigation movement behavior.</p>
+<h2 id="spawn-clone">2. Spawn a runtime clone</h2>
+<p>Author a source entity in the scene first, for example an entity named <code>Bullet</code>. The script below can live on a target, weapon, or spawner.</p>
+<pre><code>var bullet = spawn("Bullet", {
+  x: this.x + 24,
+  y: this.y,
+  name: "Bullet_Instance"
+});
+if (bullet) {
+  bullet.velocityX = 500;
+}</code></pre>
+<div class="callout warn"><strong>Why the source entity matters</strong> <code>spawn()</code> clones an existing authored entity. It is not a constructor that invents a new component set from scratch.</div>
+<h2 id="raycast">3. Raycast toward an entity</h2>
+<p>Put this on the entity performing the vision/sensor check.</p>
+<pre><code>function onUpdate(dt) {
+  var target = findFirst("Target");
+  if (!target) return;
+
+  var hit = physics.raycast(this.x, this.y, target.x, target.y, {
+    layerMask: 1 &lt;&lt; 0,
+    exclude: [this],
+    debug: true
+  });
+
+  this.hasLineOfSight = !hit || hit.entity === target;
+}</code></pre>
+<p>The result is either a hit object containing <code>entity</code>, <code>point</code>, <code>normal</code>, and <code>distance</code>, or a falsy result when nothing is hit.</p>
+<h2 id="messages">4. Send an event without hard-coding the receiver's logic</h2>
+<pre><code>// Sender
+var enemy = findFirst("Enemy");
+if (enemy) sendMessage(enemy, "takeDamage", { amount: 25 });
+
+// Receiver
+function onMessage(message, sender, data) {
+  if (message === "takeDamage") {
+    this.hp -= data.amount;
+  }
+}</code></pre>
+<p>Use an EntityContext when you need exactly one receiver. Use a tag string when you intentionally want a group to receive the same message.</p>
+<h2 id="input">5. Keyboard movement with frame-independent speed</h2>
+<pre><code>function onUpdate(dt) {
+  var dx = 0;
+  var dy = 0;
+  if (input.keyDown("ArrowLeft")) dx -= 1;
+  if (input.keyDown("ArrowRight")) dx += 1;
+  if (input.keyDown("ArrowUp")) dy -= 1;
+  if (input.keyDown("ArrowDown")) dy += 1;
+
+  var length = Math.hypot(dx, dy);
+  if (length &gt; 0) {
+    dx /= length;
+    dy /= length;
+    this.x += dx * 220 * dt;
+    this.y += dy * 220 * dt;
+  }
+}</code></pre>
+<p>This is useful for simple non-physics entities. Use Rigidbody2D/CharacterController APIs when movement is supposed to participate in physics/controller resolution.</p>
+<h2 id="timers">6. Delay work without hand-written countdown variables</h2>
+<pre><code>function onStart() {
+  this.wait(1.5, function () {
+    this.sprite.opacity = 0.4;
+  });
+
+  this.repeat(2, function () {
+    debug.log("heartbeat");
+  });
+}</code></pre>
+<p>Entity-owned timers are automatically cancelled when the scheduling entity is destroyed or the scene changes.</p>
+<h2 id="save">7. Persistent save data</h2>
+<pre><code>function onStart() {
+  this.hp = save.get("targetHp") ?? 100;
+}
+
+function onCheckpointReached() {
+  save.set("targetHp", this.hp);
+  save.set("checkpoint", { x: this.x, y: this.y });
+}
+
+async function onGameComplete() {
+  save.set("completed", true);
+  await save.flushNow();
+  scene.load("Credits");
+}</code></pre>
+<div class="callout success"><strong>Important</strong> <code>save.set()</code> updates the in-memory save immediately. Use <code>await save.flushNow()</code> when the next action must wait for durable storage before continuing.</div>
+<h2 id="nav-path">8. Ask the navigation system for a path</h2>
+<pre><code>var path = nav.findPath(this.x, this.y, goalX, goalY, {
+  radius: this.navAgent.radius,
+  area: nav.areaMask("Ground", "Road"),
+  areaCosts: nav.areaCosts({ Road: 1, Mud: 4 }),
+  debug: true
+});
+
+if (path) {
+  debug.log("Waypoints: " + path.length);
+}</code></pre>
+<p>This example demonstrates four separate concepts: agent clearance, hard area permission, soft area preference, and debug visualization.</p>
+<h2 id="nav-agent-runtime">9. Change a NavAgent2D at runtime</h2>
+<p>Select the moving entity and add <strong>Nav Agent 2D</strong> in <span class="ui-path">Inspector → Add Component → Nav Agent 2D</span>. The exposed script properties are read/write.</p>
+<pre><code>this.navAgent.speed = 180;
+this.navAgent.radius = 12;
+this.navAgent.avoidanceEnabled = true;
+this.navAgent.repathInterval = 0.2;
+
+// Read-only current route state:
+var path = this.navAgent.currentPath;
+var index = this.navAgent.currentPathIndex;</code></pre>
+<div class="callout warn"><strong>Read-only fields</strong> <code>currentPath</code> and <code>currentPathIndex</code> are managed by <code>navMoveToward()</code>. Do not assign to them; call <code>this.navMoveToward(newX,newY,...)</code> to change the destination.</div>
+<h2 id="area-names">10. Use named navigation areas instead of raw bitmasks</h2>
+<p>First name the slots in <span class="ui-path">Edit → Nav Areas…</span>. For example: <code>Ground</code>, <code>Road</code>, <code>Mud</code>, <code>Water</code>.</p>
+<pre><code>var roadOnly = nav.areaMask("Road");
+var mixed = nav.areaMask("Road", "Ground");
+var waterSlot = nav.areaIndex("Water");</code></pre>
+<p>This keeps scripts readable and means you do not have to remember which slot number was assigned to each named area.</p>
+<h2 id="camera">11. Camera follow</h2>
+<pre><code>function onUpdate(dt) {
+  var target = findFirst("Target");
+  if (target) {
+    this.camera.follow(target, { smoothing: 0.1 });
+  }
+}</code></pre>
+<p>Put the script on the entity that has the Camera component. The engine template also demonstrates this pattern.</p>
+<h2 id="animation">12. Switch animations from gameplay state</h2>
+<pre><code>function onUpdate(dt) {
+  if (!this.rigidbody) return;
+
+  if (!this.rigidbody.grounded) {
+    if (this.rigidbody.velocityY &gt; 0) this.animator.play("fall");
+    else this.animator.play("Jump");
+  } else if (Math.abs(this.rigidbody.velocityX) &gt; 5) {
+    this.animator.play("Run");
+  } else {
+    this.animator.play("Idle");
+  }
+}</code></pre>
+<h2 id="touch">13. Touch / joystick control</h2>
+<p>For a Joystick component, select an entity, then use <span class="ui-path">Inspector → Add Component → Joystick</span>. The script can read normalized values:</p>
+<pre><code>function onUpdate(dt) {
+  if (!this.joystick || !this.joystick.active) return;
+  this.controller.simulateMove(this.joystick.x, this.joystick.y);
+}</code></pre>
+<p><code>x</code> and <code>y</code> are normalized joystick axes; <code>magnitude</code> tells you how far the thumb is displaced.</p>
+<h2 id="collision">14. Trigger a scene change on overlap</h2>
+<p>Give the portal entity a <strong>Collider2D</strong> and enable its <strong>Is Trigger</strong> checkbox in the right Inspector.</p>
+<pre><code>function onTriggerEnter(other) {
+  if (other.name === "Target") {
+    scene.load("Level2");
+  }
+}</code></pre>
+<p>Trigger callbacks depend on Collider2D overlap. A trigger does not behave like a solid blocking collider.</p>
+<h2 id="debug">15. Build your own tiny diagnostic HUD</h2>
+<pre><code>function onUpdate(dt) {
+  debug.log(
+    "pos=" + Math.round(this.x) + "," + Math.round(this.y) +
+    " speed=" + Math.round(this.navAgent ? this.navAgent.speed : 0)
+  );
+}</code></pre>
+<p>Use this while developing, then remove or gate noisy logging before a final release.</p>
+<h2 id="patterns">Patterns that scale well</h2>
+<table><thead><tr><th>Need</th><th>Prefer</th><th>Avoid</th></tr></thead><tbody>
+<tr><td>Exact entity</td><td><code>findById()</code> or a known EntityContext</td><td>Assuming a shared name is unique when it is not.</td></tr>
+<tr><td>Group communication</td><td>Tag + <code>sendMessage()</code></td><td>Duplicating the same lookup in every receiver.</td></tr>
+<tr><td>Persistent data</td><td><code>save.*</code></td><td>Using <code>global.*</code> for data that must survive reload.</td></tr>
+<tr><td>Pathfinding</td><td>One NavWorld2D + NavAgent2D per mover</td><td>Creating a navigation world per NPC.</td></tr>
+<tr><td>Physics movement</td><td>Rigidbody2D / CharacterController APIs</td><td>Directly changing <code>x/y</code> when you need collision resolution.</td></tr>
+<tr><td>Frame-independent custom movement</td><td>Multiply speed by <code>dt</code></td><td>Using a raw pixels-per-frame constant.</td></tr>
+</tbody></table>
+<h2 id="recipe-index">Where to go next</h2>
+<div class="cards"><div class="card"><h3>Complete Navigation</h3><p><a href="./navigation-complete.html">Full editor-to-runtime navigation setup, areas, costs, vehicles and debugging.</a></p></div><div class="card"><h3>Option schemas</h3><p><a href="../api/options.html">Exact <code>opts</code> objects, defaults, types and override rules.</a></p></div><div class="card"><h3>Component reference</h3><p><a href="../api/index.html">Every component and its editor/runtime contract.</a></p></div></div>

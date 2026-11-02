@@ -1,0 +1,12 @@
+<!--meta {"title": "Collisions & triggers", "description": "onCollisionEnter/Stay/Exit, onTriggerEnter/Exit, the other parameter, and physics layers from script.", "lede": "onCollisionEnter/Stay/Exit, onTriggerEnter/Exit, the other parameter, and physics layers from script."} -->
+<h2 id="requirements">Requirements</h2><p>Collision and trigger callbacks need a Collider2D on the entity receiving the callback (a Rigidbody2D is not strictly required — a collider with no rigidbody is treated as static, matching how Unity handles a collider-only object).</p><h2 id="the-other-parameter">The other parameter</h2><p><code>other</code> in every collision/trigger callback is an EntityContext — the exact same shape as <code>this</code>. You can read <code>other.x</code>, <code>other.name</code>, call <code>other.hasComponent(...)</code>, or even <code>other.destroy()</code>.</p><h2 id="enter-vs-stay-vs-exit">Enter vs. Stay vs. Exit</h2><pre><code>function onCollisionEnter(other) {
+  if (other.name === "Ground") this.isGrounded = true;
+}
+
+function onCollisionExit(other) {
+  if (other.name === "Ground") this.isGrounded = false;
+}</code></pre><p><code>onCollisionStay(other)</code> fires every physics step the collider remains touching — from the step after Enter, up to (not including) the step Exit fires. Use Stay sparingly for continuous effects (e.g. damage-over-time while standing in a hazard); use Enter/Exit for one-shot state changes.</p><h2 id="triggers">Triggers</h2><p>A collider with <code>isTrigger: true</code> detects overlap without physically blocking movement, and fires <code>onTriggerEnter</code>/<code>onTriggerExit</code> instead of the collision events:</p><pre><code>function onTriggerEnter(other) {
+  if (other.hasComponent("Rigidbody2D")) {
+    scene.load("Level2");
+  }
+}</code></pre><h2 id="physics-layers">Physics layers</h2><p>Collider2D’s <code>layer</code>/<code>mask</code> fields (16 named layers, same slot-based model as Unity) control which pairs of colliders physically interact and receive callbacks at all. Two colliders only interact if each one’s membership layer is included in the other’s mask — see Collider2D for the full bitmask reference and <code>physics.layer(...)</code> for building a mask from script.</p>

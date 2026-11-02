@@ -1,0 +1,48 @@
+<!--meta {"title": "Time scale & game speed", "description": "Slow motion, speed-up and freeze with time.scale, plus time.deltaTime, time.unscaledDeltaTime and time.elapsed.", "lede": "Slow motion, speed-up and freeze with time.scale, plus time.deltaTime, time.unscaledDeltaTime and time.elapsed."} -->
+<h2 id="time-members">The time object</h2>
+<div class="table-wrap"><table><thead><tr><th>Member</th><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>time.deltaTime</code></td><td>number</td><td>Game seconds since the previous frame. Follows <code>time.scale</code>.</td></tr>
+<tr><td><code>time.unscaledDeltaTime</code></td><td>number</td><td>Real seconds since the previous frame, ignoring <code>time.scale</code>. Use it for menus and UI that must keep animating while the game is slowed or frozen.</td></tr>
+<tr><td><code>time.elapsed</code></td><td>number</td><td>Game seconds since the game started. Follows <code>time.scale</code>.</td></tr>
+<tr><td><code>time.scale</code></td><td>number</td><td>Read/write game speed multiplier, from 0 to 100. Default <code>1</code>.</td></tr>
+</tbody></table></div>
+
+<h2 id="using-time-scale">Using time.scale</h2>
+<p><code>time.scale</code> changes how fast the whole game runs, like Unity's <code>Time.timeScale</code>.</p>
+<pre><code>function onClick() {
+  time.scale = 0.3;              // slow motion
+  wait(1.5, function () {        // 1.5 GAME seconds = 5 real seconds at 0.3
+    time.scale = 1;
+  });
+}</code></pre>
+<div class="table-wrap"><table><thead><tr><th>Value</th><th>Effect</th></tr></thead><tbody>
+<tr><td><code>1</code></td><td>Normal speed.</td></tr>
+<tr><td><code>0.5</code></td><td>Slow motion (half speed).</td></tr>
+<tr><td><code>2</code></td><td>Double speed.</td></tr>
+<tr><td><code>0</code></td><td>Frozen. The world still updates with <code>dt = 0</code>, rendering continues, and scripts keep running so you can read input and show a pause menu.</td></tr>
+</tbody></table></div>
+
+<h2 id="what-is-affected">What is and is not affected</h2>
+<ul>
+<li><strong>Affected:</strong> physics, animation, <a href="tween.html"><code>tween()</code></a>, <code>wait()</code> and <code>repeat()</code>, <code>onFixedUpdate</code>, <code>time.deltaTime</code> and <code>time.elapsed</code>.</li>
+<li><strong>Not affected:</strong> input, rendering and <code>time.unscaledDeltaTime</code>.</li>
+</ul>
+
+<h2 id="limits">Limits and gotchas</h2>
+<ul>
+<li>Values must be numbers from 0 to 100. Anything else (negative, NaN, text) is ignored and a console warning says the previous value was kept. Values above 100 are clamped to 100.</li>
+<li>Each frame simulates at most half a second of game time, so on a 60 FPS screen speeds above roughly 30x will not go faster.</li>
+<li>A tab-out or long frame spike is clamped to 0.1 real seconds before the scale is applied.</li>
+<li><strong>It stays set</strong> when you load or restart a scene. Set <code>time.scale = 1</code> yourself if the next scene should run at normal speed.</li>
+<li>Physics catch-up steps are capped, so extreme speeds trade accuracy for stability.</li>
+</ul>
+
+<h2 id="pause-menu">Pause menu pattern</h2>
+<pre><code>function onUpdate() {
+  if (input.keyPressed("Escape")) {
+    time.scale = time.scale === 0 ? 1 : 0;
+  }
+  // Menu animation that keeps running while frozen:
+  this.rotation += 90 * time.unscaledDeltaTime;
+}</code></pre>
+<p><code>scene.pause()</code> and <code>scene.resume()</code> are the other way to freeze gameplay; see <a href="globals.html">Global API</a>. Unlike <code>time.scale = 0</code> (where scripts keep running with <code>deltaTime = 0</code>), <code>scene.pause()</code> stops scripts including <code>onUpdate</code>, physics, animation and audio from the next frame until <code>scene.resume()</code>.</p>

@@ -1,0 +1,7 @@
+<!--meta {"title": "HTML5 and PWA export", "description": "Create a standalone HTML5 game or a PWA with a manifest and service worker.", "lede": "Create a standalone HTML5 game or a PWA with a manifest and service worker."} -->
+<h2 id="html5">HTML5</h2>
+<p>HTML5 export produces a standalone static game package. The ZIP contains an <code>index.html</code> entry point, game code, the standalone runtime and the assets required by the project. It does not include the editor or Hub.</p>
+<h2 id="pwa">PWA</h2>
+<p>PWA export adds a web app manifest and service worker to the same standalone game package. The browser can offer installation and offline caching when the deployment meets the browser's PWA requirements.</p>
+<h2 id="hosting">Hosting checklist</h2>
+<ul><li>Extract the ZIP and keep the entry point, runtime and referenced assets together.</li><li>Serve the package over HTTP(S); do not rely on opening <code>index.html</code> directly with <code>file://</code>.</li><li>Use HTTPS on a public deployment when browser security rules or PWA installation require a secure origin.</li><li>Test the exported game independently of the editor before sharing it.</li></ul>

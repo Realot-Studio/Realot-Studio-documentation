@@ -1,0 +1,14 @@
+<!--meta {"title": "Persistence", "description": "Use transient global state and durable IndexedDB saves.", "lede": "Use transient global state and durable IndexedDB saves."} -->
+<h2 id="global-vs-save">global vs save</h2><div class="table-wrap"><table><thead><tr><th>Surface</th><th>Lifetime</th></tr></thead><tbody><tr><td>global</td><td>Transient cross-script state for the current play session/page. Refreshing the page clears it.</td></tr><tr><td>save</td><td>Persistent per-slot key/value storage backed by IndexedDB. Survives refresh/reopen when browser storage is available.</td></tr></tbody></table></div><h2 id="basic-save-api">Basic save API</h2><pre><code>save.set("score", 1250);
+const score = save.get("score");
+
+if (!save.has("tutorialSeen")) {
+  save.set("tutorialSeen", true);
+}</code></pre><h2 id="multiple-save-slots">Multiple save slots</h2><pre><code>await save.load("slot2");
+const hp = save.get("targetHp");
+
+const slots = await save.listSlots();</code></pre><h2 id="flush-before-a-transition">Flush before a transition</h2><pre><code>async function onGameComplete() {
+  save.set("completed", true);
+  await save.flushNow();
+  scene.load("Credits");
+}</code></pre><h2 id="storage-errors">Storage errors</h2><p><code>save.set()</code> updates the in-memory value synchronously while IndexedDB writes happen in the background. Register <code>save.onError(fn)</code> to observe persistent-storage failures such as quota errors or unavailable IndexedDB implementations.</p>

@@ -1,0 +1,39 @@
+<!--meta {"title": "API reference", "description": "Complete Realot Studio component, script-module and runtime API reference.", "lede": "Browse all engine components, every supported script module member, global runtime objects and option shapes."} -->
+<div class="callout info"><strong>Start with prerequisites</strong><div>The <a href="requirements.html">API requirements &amp; complete usage map</a> shows which components or scene systems must exist before an API can be used.</div></div>
+<h2 id="component-reference">Components</h2>
+<p>The editor's component system contains 25 documented component types. Each component page lists its public scene fields, defaults, field descriptions, and the script API members exposed when that component is attached.</p>
+<div class="api-list">
+<a class="api-card" href="components/transform.html"><strong>Transform</strong><span>Position, rotation and scale.</span></a>
+<a class="api-card" href="components/spriterenderer.html"><strong>SpriteRenderer</strong><span>Texture, color, flips and opacity.</span></a>
+<a class="api-card" href="components/shaperenderer.html"><strong>ShapeRenderer</strong><span>Procedural square, circle, capsule and triangle shapes.</span></a>
+<a class="api-card" href="components/textrenderer.html"><strong>TextRenderer</strong><span>World-space and screen-space text.</span></a>
+<a class="api-card" href="components/strokepath.html"><strong>StrokePath</strong><span>Editable variable-width lines and textured paths.</span></a>
+<a class="api-card" href="components/speechbubble.html"><strong>SpeechBubble</strong><span>Entity-attached dialogue bubble.</span></a>
+<a class="api-card" href="components/chatlog.html"><strong>ChatLog</strong><span>Scrollable message history.</span></a>
+<a class="api-card" href="components/textinput.html"><strong>TextInput</strong><span>Interactive text entry.</span></a>
+<a class="api-card" href="components/joystick.html"><strong>Joystick</strong><span>Virtual touch joystick.</span></a>
+<a class="api-card" href="components/rigidbody2d.html"><strong>Rigidbody2D</strong><span>Static, Dynamic and Kinematic physics body.</span></a>
+<a class="api-card" href="components/collider2d.html"><strong>Collider2D</strong><span>Collision shape, triggers and layer filters.</span></a>
+<a class="api-card" href="components/joint2d.html"><strong>Joint2D</strong><span>Fixed, Revolute, Prismatic, Rope and Spring joints.</span></a>
+<a class="api-card" href="components/charactercontroller.html"><strong>CharacterController</strong><span>Character, Platformer, Top-Down, Car, Follow, Patrol and Free movement modes.</span></a>
+<a class="api-card" href="components/spriteanimation.html"><strong>SpriteAnimation</strong><span>Sprite-sheet clips and animation state.</span></a>
+<a class="api-card" href="components/camera.html"><strong>Camera</strong><span>Reference resolution, scaling, follow, shake and pseudo-3D.</span></a>
+<a class="api-card" href="components/audiosource.html"><strong>AudioSource</strong><span>Playback, pitch, volume and spatial attenuation.</span></a>
+<a class="api-card" href="components/audiolistener.html"><strong>AudioListener</strong><span>Hearing radius and audio detection.</span></a>
+<a class="api-card" href="components/light.html"><strong>Light</strong><span>Six 2D light modes.</span></a>
+<a class="api-card" href="components/shadowcaster.html"><strong>ShadowCaster</strong><span>Shadow occlusion geometry and softness.</span></a>
+<a class="api-card" href="components/lightingsettings.html"><strong>LightingSettings</strong><span>Scene-wide ambient and shadow quality settings.</span></a>
+<a class="api-card" href="components/navagent2d.html"><strong>NavAgent2D</strong><span>Pathfinding, area filters, avoidance and vehicle tuning.</span></a>
+<a class="api-card" href="components/navworld2d.html"><strong>NavWorld2D</strong><span>Shared painted or baked navigation grid.</span></a>
+<a class="api-card" href="components/tileset.html"><strong>Tileset</strong><span>Reusable 16-role autotile setup.</span></a>
+<a class="api-card" href="components/tilemap.html"><strong>Tilemap</strong><span>Painted tile grid linked to a Tileset.</span></a>
+<a class="api-card" href="components/script.html"><strong>Script</strong><span>Script name, source and enabled state.</span></a>
+</div>
+<h2 id="script-module-reference">Complete script-module index</h2>
+<p>The <a href="script-modules.html">Script module member index</a> is generated from the engine's supported-member sets. It covers every member exposed by the <code>this.*</code> component modules, plus <code>this.state</code>, <code>this.myTouch</code>, <code>scene.lighting</code> and the global <code>save</code> API. Each entry includes its access type, context and source file.</p>
+<h2 id="runtime-api">Global runtime API</h2>
+<p>Scripts also receive global functions and objects such as <code>findFirst()</code>, <code>scene</code>, <code>physics</code>, <code>nav</code>, <code>input</code>, <code>mouse</code>, <code>touch</code>, <code>time</code>, <code>random</code>, <code>mathx</code>, <code>save</code>, <code>debug</code> and <code>pool</code>. See <a href="runtime.html">Runtime modules</a> and the practical <a href="../scripting/globals.html">Global API guide</a>.</p>
+<h2 id="options-prerequisites">Option shapes and requirements</h2>
+<p>Optional arguments for raycasts, spawning, navigation, camera follow and other script calls are documented in <a href="options.html">Option schemas (opts)</a>. The <a href="requirements.html">requirements map</a> identifies component prerequisites and always-available APIs.</p>
+<h2 id="machine-readable-catalog">Machine-readable catalog</h2>
+<p>For code tools and AI assistants, fetch <a href="../../api/index.json"><code>api/index.json</code></a>. It contains component field/default metadata, lifecycle callbacks, enum values, global API groups, all 24 script API modules and their supported member lists. The full manual is available from <a href="../../llms-full.txt"><code>llms-full.txt</code></a>; the search index is <a href="../../search-index.json"><code>search-index.json</code></a>.</p>

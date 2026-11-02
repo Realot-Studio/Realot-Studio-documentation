@@ -1,0 +1,12 @@
+<!--meta {"title": "Entities & components", "description": "Understand Realot Studio scene entities, IDs, tags, component composition and runtime cloning.", "lede": "Understand Realot Studio scene entities, IDs, tags, component composition and runtime cloning."} -->
+<h2 id="entity-identity">Entity identity</h2><p>An entity has a unique stable ID such as <code>e12</code>, a human-facing name, a tag, active state, optional hierarchy folder, prefab metadata and a component map. Names and tags are not unique; IDs are.</p><h2 id="why-ids-matter">Why IDs matter</h2><p>Use <code>findById(id)</code> when you mean one exact entity. Use name/tag queries when you intentionally want one or many matches. Runtime clones keep unique IDs and expose <code>isClone</code>.</p><h2 id="component-composition">Component composition</h2><p>A gameplay actor can combine Transform + SpriteRenderer + Collider2D + Rigidbody2D + Script. A UI button might combine Transform + TextRenderer + Collider2D + Script. There is no requirement that every entity have every component.</p><h2 id="runtime-cloning">Runtime cloning</h2><p>Use <code>spawn()</code> or <code>this.spawn()</code> to clone an authored entity. The returned context is the new live entity; <code>onClone()</code> runs for runtime clones before <code>onStart()</code>.</p><pre><code>function onUpdate() {
+  if (input.keyPressed("Space")) {
+    var bullet = spawn("Bullet", { x: this.x, y: this.y });
+    bullet.rotation = this.rotation; // configure the clone right after spawning
+  }
+}
+
+// Inside Bullet’s own script:
+function onClone() {
+  this.tag = "projectile"; // runs once, before this clone’s onStart()
+}</code></pre><h2 id="destroying-entities">Destroying entities</h2><p><code>this.destroy()</code> queues destruction for the end of the frame. <code>onDestroy()</code> runs before removal. Waiting/repeating timers owned by the entity are automatically cancelled when the entity is destroyed.</p>

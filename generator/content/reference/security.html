@@ -1,0 +1,19 @@
+<!--meta {"title": "Security and play origin", "description": "Understand the script trust boundary and why shared projects should run on a separate origin.", "lede": "Understand the script trust boundary and why shared projects should run on a separate origin."} -->
+<div class="callout warn"><strong>Game scripts are not a security sandbox</strong><div>Project scripts execute as ordinary JavaScript in the game page. Treat scripts inside imported projects as code from another person, not as inert project data.</div></div>
+<h2 id="script-execution">Script execution</h2>
+<p>Realot shadows selected browser globals inside its script environment as a guardrail against accidental access. This is not a hardened security boundary: scripts are compiled and run as page code. Do not open a project containing scripts unless you trust its source.</p>
+<h2 id="separate-origin">Use a separate play origin for shared projects</h2>
+<p>For a deployment where people can open projects from others, configure the editor to launch Play on a separate hostname that serves the same Realot files. In <code>project/editor/index.html</code>, set the <code>realot-play-origin</code> meta tag to that HTTPS origin:</p>
+<pre><code>&lt;meta name="realot-play-origin" content="https://play.example.com" /&gt;</code></pre>
+<p>The editor sends the scene to the play page using <code>postMessage</code>. Because the two hostnames are different origins, browser same-origin policy keeps the play page's localStorage, IndexedDB and DOM separate from the editor's. Leave the meta content empty and Play uses the same origin; that is less isolated and is not recommended for untrusted projects.</p>
+<h2 id="offline-fallback">Offline behavior</h2>
+<p>If the configured play origin cannot be reached, such as while offline, the editor can fall back to same-origin Play and logs a warning. Data saved by the game on the play origin is separate from the editor origin's storage.</p>
+<h2 id="other-protections">Other protections</h2>
+<ul>
+<li>Messages are accepted only from the corresponding editor/play window and expected origin.</li>
+<li>Console output and project-controlled names are escaped before display in the editor UI.</li>
+<li>Loading a project containing scripts asks for confirmation first.</li>
+<li>Exported games run on the origin where the developer hosts them; they are separate from the editor's Play-origin setting.</li>
+</ul>
+<h2 id="apk-credentials">APK build credentials</h2>
+<p>The APK service URL is public configuration. Permanent service credentials must not be placed in the static editor source because all shipped JavaScript can be inspected by visitors. The editor's intended managed flow requests a short-lived token from the service and renews it when needed. The service must still enforce appropriate quotas and access controls; a public token-issuance endpoint alone does not identify an approved user.</p>

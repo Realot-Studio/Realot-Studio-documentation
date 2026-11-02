@@ -1,0 +1,33 @@
+<!--meta {"title": "Lifecycle", "description": "Complete Realot Studio script lifecycle and callback reference.", "lede": "Complete Realot Studio script lifecycle and callback reference."} -->
+<h2 id="core-lifecycle">Core lifecycle</h2><div class="table-wrap"><table><thead><tr><th>Callback</th><th>Semantics</th></tr></thead><tbody><tr><td>onStart()</td><td>Once before first onUpdate().</td></tr><tr><td>onClone()</td><td>Once for runtime clones, immediately before onStart().</td></tr><tr><td>onUpdate(dt)</td><td>Every render frame.</td></tr><tr><td>onFixedUpdate(dt)</td><td>Fixed 60 Hz accumulator.</td></tr><tr><td>onDestroy()</td><td>Before entity removal / scene end.</td></tr></tbody></table></div><pre><code>function onStart() {
+  this.hp = 100; // custom fields on this persist across the entity’s lifetime
+  debug.log("HP", this.hp);
+}
+
+function onUpdate() {
+  this.x += 50 * time.deltaTime; // frame-rate independent movement
+}
+
+function onFixedUpdate(dt) {
+  // runs at a fixed 60 Hz step — good for deterministic physics-adjacent logic
+}
+
+function onDestroy() {
+  debug.clear("HP");
+}</code></pre><h2 id="pointer-callbacks">Pointer callbacks</h2><p><code>onClick()</code> is a frame pulse for mouse/finger presses targeting an entity with Collider2D. For continuous polling, use <code>this.isPointerOver</code>, <code>this.isClicked</code>, <code>this.isTouchOver</code> or <code>this.isTapped</code> where appropriate.</p><pre><code>function onClick() {
+  this.destroy(); // pops this entity when clicked or tapped
+}</code></pre><h2 id="collision-callbacks">Collision callbacks</h2><div class="table-wrap"><table><thead><tr><th>Callback</th><th>Runs</th></tr></thead><tbody><tr><td>onCollision(other)</td><td>Alias of collision-enter behavior.</td></tr><tr><td>onCollisionEnter(other)</td><td>Contact begins.</td></tr><tr><td>onCollisionStay(other)</td><td>Every physics step while still touching.</td></tr><tr><td>onCollisionExit(other)</td><td>Contact ends.</td></tr><tr><td>onTriggerEnter(other)</td><td>Trigger overlap begins.</td></tr><tr><td>onTriggerExit(other)</td><td>Trigger overlap ends.</td></tr></tbody></table></div><pre><code>function onCollisionEnter(other) {
+  if (other.name === "Ground") this.isGrounded = true;
+}
+
+function onTriggerEnter(other) {
+  if (other.hasComponent("Rigidbody2D")) scene.load("Level2");
+}</code></pre><h2 id="state-callbacks">State callbacks</h2><p>When using <code>this.state.change(name)</code>, Realot Studio can call <code>onStateExit()</code>, <code>onStateEnter()</code> and <code>onStateUpdate(dt)</code> for state-specific logic.</p><pre><code>function onUpdate() {
+  if (this.hp &lt;= 0 &amp;&amp; this.state.current !== "dead") {
+    this.state.change("dead");
+  }
+}
+
+function onStateEnter() {
+  if (this.state.current === "dead") this.sprite.opacity = 0.3;
+}</code></pre><h2 id="error-isolation">Error isolation</h2><p>Lifecycle errors are caught and reported by the runtime. A one-time <code>onStart()</code> failure disables the script; recurring <code>onUpdate()</code> errors are isolated so the next frame can continue.</p>

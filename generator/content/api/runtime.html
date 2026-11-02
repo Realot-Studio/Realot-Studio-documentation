@@ -1,0 +1,27 @@
+<!--meta {"title": "Runtime modules and global API", "description": "Index of global functions and objects supplied to gameplay scripts in Realot Studio.", "lede": "These runtime globals are passed into every gameplay script. Use this page as the entry point, then follow the detailed guides for exact behavior and options."} -->
+<h2 id="entity-functions">Entity lookup functions</h2>
+<p><code>findFirst(name)</code>, <code>findAll(name)</code>, <code>findFirstWithTag(tag)</code>, <code>findAllWithTag(tag)</code>, <code>findWithTag(tag)</code>, <code>findById(id)</code> and <code>findInRadius(x, y, radius, opts?)</code> locate entities in the current scene.</p>
+<h2 id="scene-physics-nav">Scene, physics and navigation</h2>
+<div class="table-wrap"><table><thead><tr><th>Object</th><th>Exposed surface</th></tr></thead><tbody>
+<tr><td><code>scene</code></td><td>Entity lookup; <code>load</code>, <code>restart</code>, <code>pause</code>, <code>resume</code>; read-only <code>current</code> and <code>isPaused</code>; scene-wide <code>lighting</code>.</td></tr>
+<tr><td><code>physics</code></td><td><code>raycast(x1, y1, x2, y2, opts?)</code>, <code>layer(...indices)</code>.</td></tr>
+<tr><td><code>nav</code></td><td><code>findPath</code>, <code>isWalkable</code>, <code>bake</code>, <code>areaIndex</code>, <code>areaMask</code>, <code>areaCosts</code>.</td></tr>
+</tbody></table></div>
+<h2 id="input-time-math">Input, time and math</h2>
+<div class="table-wrap"><table><thead><tr><th>Object</th><th>Exposed surface</th></tr></thead><tbody>
+<tr><td><code>input</code></td><td><code>keyDown(key)</code>, <code>keyPressed(key)</code>.</td></tr><tr><td><code>mouse</code></td><td>World/screen coordinates, cursor state, button state, <code>isOver</code>, <code>clickedOn</code>.</td></tr><tr><td><code>touch</code></td><td>Active touch list, per-touch positions and state, swipe/pinch helpers, <code>isOver</code>, <code>tappedOn</code>.</td></tr>
+<tr><td><code>time</code></td><td><code>deltaTime</code>, <code>unscaledDeltaTime</code>, <code>elapsed</code>, <code>scale</code>.</td></tr><tr><td><code>random</code></td><td><code>int(min, max)</code>, <code>float(min, max)</code>.</td></tr><tr><td><code>mathx</code></td><td><code>lerp</code>, <code>smoothstep</code>, <code>clamp</code>, <code>moveToward</code>, <code>remap</code>, <code>approximately</code>.</td></tr><tr><td><code>smoothstep(a, b, value)</code></td><td>Global smoothstep helper also available without <code>mathx.</code>.</td></tr>
+</tbody></table></div>
+<h2 id="game-services">Game services</h2>
+<div class="table-wrap"><table><thead><tr><th>Object / function</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>global</code></td><td>Shared in-memory key/value state between scripts during the running game.</td></tr><tr><td><code>save</code></td><td>Persistent key/value data and named save slots backed by IndexedDB; exact members are in <a href="script-modules.html#saveapi">SaveAPI</a>.</td></tr><tr><td><code>debug</code></td><td>Play-window diagnostic HUD, FPS line and custom values.</td></tr><tr><td><code>pool</code></td><td>Named object pools for reusing entities.</td></tr>
+<tr><td><code>spawn(nameOrTag, opts?)</code></td><td>Creates a runtime clone.</td></tr><tr><td><code>wait</code>, <code>repeat</code>, <code>cancelWait</code>, <code>cancelRepeat</code></td><td>Entity-owned one-shot and repeating timers.</td></tr><tr><td><code>sendMessage</code>, <code>broadcastMessage</code></td><td>Targeted, tag-group or scene-wide script messaging.</td></tr><tr><td><code>tween</code>, <code>cancelTween</code></td><td>Property animation over game time.</td></tr>
+</tbody></table></div>
+<h2 id="detailed-global-guide">Detailed global API guide</h2>
+<p>The <a href="../scripting/globals.html">Global scripting API</a> explains each object with examples. Use <a href="../scripting/input.html">Input</a>, <a href="../scripting/persistence.html">Persistence</a>, <a href="../scripting/navigation.html">Pathfinding</a> and <a href="../scripting/tween.html">Tween API</a> for focused guides.</p>
+<h2 id="component-modules">Per-entity component modules</h2>
+<p>Component modules such as <code>this.rigidbody</code>, <code>this.sprite</code>, <code>this.camera</code> and <code>this.text</code> depend on the components attached to the entity. The <a href="script-modules.html">complete script module index</a> lists every supported member from all 24 script API modules, its access type and required context. The <a href="this.html"><code>this</code> reference</a> explains EntityContext shortcuts and prerequisites.</p>
+<h2 id="fixed-update">Fixed update</h2>
+<p><code>onFixedUpdate(dt)</code> runs on the fixed physics cadence (60 steps per second in the supplied runtime). Use it for logic that should follow fixed-step physics timing; use <code>onUpdate(dt)</code> for frame-based presentation and input handling.</p>
+<h2 id="coordinates">Coordinate spaces</h2>
+<p>Entity positions, <code>mouse.x/y</code>, touch <code>x/y</code>, raycast points and navigation waypoints use world-space coordinates. Mouse/touch <code>screenX/screenY</code> values are raw game-canvas pixels. Camera reference resolution and world units are separate concepts.</p>

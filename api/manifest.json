@@ -1,0 +1,17 @@
+{
+ "title": "Realot Studio API catalog",
+ "engine": "Realot Studio",
+ "files": {
+  "catalog": "api/index.json",
+  "searchIndex": "search-index.json",
+  "llms": "llms.txt",
+  "llmsFull": "llms-full.txt"
+ },
+ "componentCount": 25,
+ "componentFieldCount": 355,
+ "scriptModuleCount": 24,
+ "scriptMemberCount": 365,
+ "sharedRelayToolCount": 80,
+ "localCompanionToolCount": 23,
+ "pageCount": 86
+}

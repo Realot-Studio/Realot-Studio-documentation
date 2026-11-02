@@ -1,0 +1,13 @@
+<!--meta {"title": "Physics & navigation scripting", "description": "Use Rigidbody2D, Collider2D, raycasts and NavWorld2D from game scripts.", "lede": "Use Rigidbody2D, Collider2D, raycasts and NavWorld2D from game scripts."} -->
+<h2 id="physics-raycasts">Physics raycasts</h2><pre><code>const hit = physics.raycast(this.x, this.y, target.x, target.y, {
+  exclude: [this],
+  layerMask: physics.layer(2, 3),
+  debug: true
+});
+
+if (hit) {
+  debug.log("Hit", hit.entity.name);
+}</code></pre><h2 id="raycast-results">Raycast results</h2><p>A hit returns <code>{ entity, point, normal, distance }</code>. The entity is a live script context; point and normal are world-space vectors. Triggers are skipped by raycasts.</p><h2 id="navigation">Navigation</h2><pre><code>const path = nav.findPath(this.x, this.y, target.x, target.y, {
+  radius: this.navAgent.radius,
+  debug: true
+});</code></pre><h2 id="one-line-agent-steering">One-line agent steering</h2><p>Entities with NavAgent2D gain <code>navMoveToward(targetX,targetY,speed,opts)</code>. Car + NavAgent entities additionally gain <code>navDriveToward()</code> for path-following, avoidance and car steering/drift behavior.</p><h2 id="physics-body-choice">Physics body choice</h2><p>Choose the body type based on ownership of movement: Dynamic for solver-driven motion, Kinematic for script/controller-driven collision-resolved movement, Static for fixed geometry.</p>

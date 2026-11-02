@@ -1,0 +1,20 @@
+<!--meta {"title": "Project format", "description": "Understand the portable .realot archive and the difference between editable projects and standalone game exports.", "lede": "Understand the portable .realot archive and the difference between editable projects and standalone game exports."} -->
+<h2 id="realot-archive">Current project file</h2>
+<p><strong>Save Project</strong> downloads a <code>.realot</code> file. The extension identifies Realot's portable project file, which the editor reads as a complete project package.</p>
+<h2 id="archive-contents">Archive contents</h2>
+<div class="table-wrap"><table><thead><tr><th>Entry</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>manifest.json</code></td><td>Project name, engine compatibility metadata and save information.</td></tr>
+<tr><td><code>scenes/index.json</code></td><td>Scene list and active scene information.</td></tr>
+<tr><td><code>scenes/*.json</code></td><td>Serialized scene entities and component data.</td></tr>
+<tr><td><code>assets/sprites.json</code>, <code>frames.json</code>, <code>audio.json</code></td><td>Asset catalogues and references to binary asset files.</td></tr>
+<tr><td><code>assets/bin/</code></td><td>Binary image/audio data referenced by the asset catalogues.</td></tr>
+<tr><td><code>scripts.json</code></td><td>User-authored JavaScript source.</td></tr>
+<tr><td><code>prefabs.json</code></td><td>Saved prefab definitions.</td></tr>
+<tr><td><code>layers.json</code>, <code>navAreas.json</code>, <code>tags.json</code></td><td>Project-wide layer, navigation-area and tag names.</td></tr>
+</tbody></table></div>
+<h2 id="open-a-project">Open a project</h2>
+<p>Use the editor's <strong>File → Load Project</strong> command to open a saved <code>.realot</code> project. On a desktop browser that supports PWA file handling, you can also install Realot Hub and double-click a downloaded <code>.realot</code> file to open it in the editor.</p>
+<h2 id="project-vs-export">Project archive versus game export</h2>
+<p>A <code>.realot</code> archive is an editable project that can be loaded back into the editor. An HTML5/PWA export is a separate standalone game package with <code>index.html</code> at its root, containing the runtime and files needed to run the game. The Android build service consumes the standalone game export, not the editable project file.</p>
+<h2 id="compatibility-metadata">Compatibility metadata</h2>
+<p>The project manifest includes engine compatibility metadata. The loader compares it with the engine build and can warn when a project was saved by a newer engine. This metadata belongs to the project format; it is not a documentation version or a user-facing engine download version.</p>

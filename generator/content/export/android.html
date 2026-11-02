@@ -1,0 +1,25 @@
+<!--meta {"title": "Export an Android APK", "description": "Build an Android APK directly from the Realot Studio Export window. The current editor allows three APK exports in a rolling 14-day period.", "lede": "Choose Android APK in the Export window. Realot builds the APK for you; you do not need Android Studio or a local Android toolchain."} -->
+<div class="callout info"><strong>One simple flow</strong><div>Click <strong>Export</strong>, choose <strong>Android APK</strong>, and let Realot build the file. There is no separate setup wizard or need to export HTML5 first.</div></div>
+<h2 id="steps">Steps</h2>
+<ol>
+<li>Open the game project in Realot Studio.</li>
+<li>Click <strong>Export</strong> in the editor toolbar. You can also use <strong>File → Export…</strong>.</li>
+<li>In the Export Game window, choose <strong>Android APK</strong>.</li>
+<li>Wait for the build to finish. Realot downloads the finished <code>.apk</code> file to your device.</li>
+</ol>
+<p>The game title is filled in from the project name and can be changed before exporting. Choosing a custom favicon is optional. Those are the only optional details shown in the export form; you do not need Android Studio, Gradle, the Android SDK or a separate web export.</p>
+<h2 id="export-limit">APK export limit</h2>
+<p>The current editor allows <strong>3 APK exports in a rolling 14-day period</strong>. The Export window shows how many of the three remain and explains when an export becomes available again. The window is rolling: an export becomes available again 14 days after the corresponding counted export, rather than all three resetting on one calendar date.</p>
+<p>An export is counted after the build service accepts the job. A failed or cancelled build gives that export back. <strong>HTML5 and PWA exports are not limited by the APK quota.</strong></p>
+<div class="callout warn"><strong>Quota detail for support and AI tools</strong><div>The supplied browser client records the rolling quota in this browser's local storage. It is therefore a per-browser client allowance, not an account-based counter. The build service should enforce its own server-side usage limits; clearing browser data is not a supported way to manage exports.</div></div>
+<h2 id="what-you-get">What the APK contains</h2>
+<p>The current Android option produces a <strong>debug-signed APK</strong> intended for testing and direct installation on an Android device. It is not a Play Store production-signed release. The Android build service is needed to create the APK; the downloaded game does not need to contact that service while it is running.</p>
+<h2 id="when-export-fails">When an export does not finish</h2>
+<p>Read the message shown in the Export window. If the service is waking up or temporarily unavailable, try again later. A failed or cancelled build returns the consumed export allowance. If the same error keeps happening, copy the message from the export window and include it when reporting the issue.</p>
+<h2 id="other-formats">Other export formats</h2>
+<ul>
+<li><strong>HTML5:</strong> creates a standalone web game you can host as a static site.</li>
+<li><strong>PWA:</strong> creates the web game plus an installable manifest and service worker for offline use.</li>
+<li><strong>Desktop (Windows/Mac/Linux):</strong> listed in the format picker as coming soon in the supplied engine build.</li>
+</ul>
+<p>For the other formats, see <a href="web.html">HTML5 and PWA export</a> or the <a href="export-window.html">Export window reference</a>.</p>

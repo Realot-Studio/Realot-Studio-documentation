@@ -1,0 +1,59 @@
+<!--meta {"title": "Editor settings and configuration", "description": "Complete reference for the editor menus, panel visibility, physics layers, navigation areas, Inspector notes, saving preferences and performance defaults.", "lede": "Where each editor option lives, what it changes, and which preferences are actually configurable in the current build."} -->
+<h2 id="where-settings-live">Where the settings are</h2>
+<p>Realot Studio does not currently have one large Settings window. Options are placed beside the editor feature they control: use <strong>File</strong> for project storage and export, <strong>Edit</strong> for physics and navigation labels, and <strong>Window</strong> for panel visibility. Component-specific settings live in the Inspector and are documented on each <a href="../api/index.html">component reference page</a>.</p>
+<h2 id="file-menu">File menu</h2>
+<div class="table-wrap"><table><thead><tr><th>Menu item</th><th>What it does</th><th>Availability / notes</th></tr></thead><tbody>
+<tr><td><strong>Save Now / Saved</strong></td><td>Immediately saves the open Hub project to its browser autosave storage. The label shows whether there are unsaved changes.</td><td>Shown when the project was opened with a Hub autosave slot.</td></tr>
+<tr><td><strong>Save Project</strong></td><td>Downloads a portable <code>.realot</code> project archive. When editing a supported file handle, the label can become <em>Save to [filename]</em>.</td><td>Available for project export to a local file.</td></tr>
+<tr><td><strong>Auto-update file: ON / OFF</strong></td><td>Controls whether changes are automatically written back to the opened project file.</td><td>Only shown when a supported file handle is active. This is local file writing, not cloud sync.</td></tr>
+<tr><td><strong>Save as copy (download)</strong></td><td>Downloads a separate copy without replacing the current file.</td><td>Shown when a file handle exists or the browser supports the Save File Picker.</td></tr>
+<tr><td><strong>Optimize Assets on Save: ON / OFF</strong></td><td>Arms an optimization pass for the next Save Project operation. When enabled, supported PNG images are losslessly optimized and WAV audio is repacked before the archive is written.</td><td>Toggle does not save immediately; the next Save Project action performs the work.</td></tr>
+<tr><td><strong>Load Project…</strong></td><td>Opens a saved Realot project file.</td><td>Choose a <code>.realot</code> project. Loading a project containing scripts asks for confirmation because scripts execute as page code. Loading a project containing scripts asks for confirmation because scripts execute as page code.</td></tr>
+<tr><td><strong>Export…</strong></td><td>Opens the standalone game export window.</td><td>See <a href="../export/export-window.html">Export window</a> and <a href="../export/android.html">Android APK</a>.</td></tr>
+<tr><td><strong>Enable Extra Backup Storage…</strong></td><td>Lets you select a local folder for mirrored project autosaves, outside the browser's normal storage quota.</td><td>Requires browser support for the File System Access API and user permission.</td></tr>
+<tr><td><strong>Extra Backup Storage: ON</strong></td><td>Turns off future mirroring to the selected folder.</td><td>Does not delete files already written to that folder.</td></tr>
+<tr><td><strong>Restore from Backup Folder…</strong></td><td>Restores the most recent project snapshot mirrored to the selected folder.</td><td>Only shown while extra backup storage is enabled for the project.</td></tr>
+</tbody></table></div>
+<h2 id="edit-menu">Edit menu</h2>
+<div class="table-wrap"><table><thead><tr><th>Menu item</th><th>What it configures</th></tr></thead><tbody>
+<tr><td><strong>Physics Layers…</strong></td><td>Opens the 16-slot physics layer-name editor. Slot 0 starts as <code>Default</code> and cannot be cleared, though it can be renamed. Slots 1–15 can be named or left blank. These names are labels for the fixed runtime layer indices used by Collider2D layer/mask filtering and physics queries.</td></tr>
+<tr><td><strong>Nav Areas…</strong></td><td>Opens the 16-slot navigation-area name editor. Slot 0 starts as <code>Ground</code> and cannot be cleared; slot 1 starts as <code>Water</code>; slots 2–15 are initially blank. Names can be changed or cleared except for slot 0. The slot indices are stored in navigation cells and NavAgent2D area masks.</td></tr>
+</tbody></table></div>
+<p>Physics-layer and navigation-area names are saved with project data. The indices—not the text labels—are what collision filtering and pathfinding use at runtime. Renaming an existing slot does not move its contents to another index.</p>
+<h2 id="project-tags">Project tags</h2>
+<p>Use the selected entity's <strong>Tag</strong> dropdown in the Inspector to assign a tag. The initial list contains <code>Untagged</code>, <code>Player</code> and <code>Enemy</code>. These are ordinary tag names supplied as starting defaults; <code>Player</code> and <code>Enemy</code> do not have automatic engine behavior just because of their names.</p>
+<ul>
+<li>Choose <strong>Add Tag…</strong> in the dropdown to create a project tag.</li>
+<li>Custom tags can be removed from the tag list. <code>Untagged</code> is protected and cannot be deleted.</li>
+<li><code>Player</code> and <code>Enemy</code> are not protected; they can be removed like other tags.</li>
+<li>Removing a tag removes it from the dropdown. Entities that already carry that tag keep their current tag value until you change it.</li>
+<li>The available tag list is included in the saved project snapshot. An entity's assigned tag is stored with its scene data.</li>
+</ul>
+<p>Tags are separate from physics layers and navigation areas. Use physics layers for collision filtering and navigation areas for pathfinding costs or masks; use tags to identify objects in editor workflows and scripts.</p>
+<h2 id="gameobject-and-ui-menus">GameObject and UI menus</h2>
+<p><strong>GameObject → Empty GameObject</strong> creates an empty entity. <strong>GameObject → Light</strong> provides Directional, Point, Spot, Area, God Rays and Freeform lights. <strong>GameObject → 2D Object</strong> creates a Tileset, Tilemap, Nav World 2D or Stroke Path. <strong>GameObject → Shape</strong> creates Square, Circle, Capsule or Triangle shapes with a matching visible ShapeRenderer and collider.</p>
+<p>The <strong>UI</strong> menu creates a Text object, Speech Bubble, Chat Log, Message Input (TextInput) or Joystick. These are shortcuts for creating an entity with the corresponding component; the full settings are on each component's reference page.</p>
+<h2 id="window-menu">Window menu and panel visibility</h2>
+<div class="table-wrap"><table><thead><tr><th>Panel</th><th>What it contains</th><th>Default</th></tr></thead><tbody>
+<tr><td><strong>Hierarchy</strong></td><td>Scene entities and their selection/order.</td><td>Visible</td></tr>
+<tr><td><strong>Asset Panel</strong></td><td>Bottom editor area for assets and related project panels.</td><td>Visible</td></tr>
+<tr><td><strong>Inspector</strong></td><td>Selected entity properties and component settings.</td><td>Visible</td></tr>
+</tbody></table></div>
+<p>Choose a panel name under <strong>Window</strong> to show or hide it. Hiding a panel gives more room to the Scene view. When one or more panels are hidden, <strong>Show All Panels</strong> restores them. Visibility is remembered in this browser, not stored as a project setting.</p>
+<h2 id="inspector-notes">Inspector component notes</h2>
+<p>The Inspector's information toggle controls optional explanatory notes below component settings. It is a display preference; actionable setup warnings remain visible independently. The default is off.</p>
+<h2 id="performance-preferences">Performance preferences and defaults</h2>
+<p>The current source defines the following stored preferences under the browser storage key <code>realot_engine_settings</code>. This is a reference to the shipped implementation—not a hidden user settings screen. Apart from the Inspector component-notes toggle described above, the current editor does not expose controls for these performance preferences in a general Settings dialog.</p>
+<div class="table-wrap"><table><thead><tr><th>Stored setting</th><th>Default</th><th>Meaning / supported values</th></tr></thead><tbody>
+<tr><td><code>editorFpsFocused</code></td><td><code>60</code></td><td>Target rendering rate for the editor viewport while the editor window is focused.</td></tr>
+<tr><td><code>editorFpsUnfocused</code></td><td><code>24</code></td><td>Target rendering rate for the editor viewport while unfocused.</td></tr>
+<tr><td><code>gameFps</code></td><td><code>60</code></td><td>Play-window target: <code>30</code>, <code>60</code>, <code>120</code>, or <code>0</code> for unlimited (limited by the browser's animation-frame scheduling).</td></tr>
+<tr><td><code>backgroundRendering</code></td><td><code>true</code></td><td>Allows throttled editor rendering to continue while the editor is unfocused rather than fully pausing.</td></tr>
+<tr><td><code>vsync</code></td><td><code>true</code></td><td>Stored vertical-sync preference read by the rendering scheduler.</td></tr>
+<tr><td><code>showComponentNotes</code></td><td><code>false</code></td><td>Whether optional Inspector component notes are displayed. This one is toggled by the Inspector UI.</td></tr>
+</tbody></table></div>
+<p>These values are implementation defaults and targets, not guarantees that a browser, device or display can maintain a particular frame rate. The editor viewport's focused/unfocused caps are separate from the runtime frame loop in an exported game.</p>
+<h2 id="console">Console and diagnostics</h2>
+<p>The Console is part of the bottom editor area. It displays editor messages and script output; use its <strong>Copy</strong> control to copy visible logs and <strong>Clear</strong> to clear them. The gameplay debug HUD is separate: scripts can enable it with <code>debug.show()</code> in the Play window. See <a href="../scripting/globals.html">Global API</a>.</p>
+<h2 id="component-settings">Component settings</h2>
+<p>Component-specific options are not centralized in this page. The source-derived <a href="../api/index.html">component reference</a> lists every public scene field, its data type, current default and script-facing API members for all 25 components. For navigation, physics and animation workflows, start with the corresponding <a href="physics.html">Physics</a>, <a href="navigation.html">Navigation</a> and <a href="assets-animation.html">Assets &amp; animation</a> guides.</p>

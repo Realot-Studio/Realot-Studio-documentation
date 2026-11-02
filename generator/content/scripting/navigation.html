@@ -1,0 +1,20 @@
+<!--meta {"title": "Pathfinding & NavWorld2D", "description": "navMoveToward, nav.findPath, named areas and per-area cost, and multi-agent avoidance.", "lede": "Fast entry point for Realot Studio navigation, with a link to the complete end-to-end workflow."} -->
+<h2 id="what-it-is">What navigation is in Realot Studio</h2><p>Realot Studio navigation is a shared 2D grid system. A scene normally contains one NavWorld2D, while NavAgent2D components query that world using agent-specific radius, area restrictions, costs, path refresh timing, and avoidance settings.</p>
+<div class="callout info"><strong>Need the whole workflow?</strong> Read <a href="./navigation-complete.html">Navigation: complete setup</a> for the complete editor + scripting + tuning flow.</div>
+<h2 id="quickest-working-path">Quickest working path</h2>
+<pre><code>function onUpdate(dt) {
+  var target = findFirst("Target");
+  if (target) this.navMoveToward(target.x, target.y, 120);
+}</code></pre>
+<p>This requires a NavWorld2D in the scene and, for useful per-agent clearance/settings, a NavAgent2D on the moving entity.</p>
+<h2 id="manual-query">Manual path query</h2>
+<pre><code>var path = nav.findPath(this.x, this.y, 800, 300, {
+  radius: 16,
+  area: nav.areaMask("Ground", "Road"),
+  areaCosts: nav.areaCosts({ Mud: 4, Road: 1 }),
+  debug: true
+});</code></pre>
+<p>The result is an array of world-space <code>{x,y}</code> waypoints or <code>null</code> when no route is available.</p>
+<h2 id="cars">Cars</h2><p>For a Car-type CharacterController with NavAgent2D, use <code>this.navDriveToward(targetX, targetY, speed, opts)</code>. It adds vehicle-oriented braking, steering, lookahead, and recovery behavior rather than pretending a car is a walking agent.</p>
+<h2 id="area-rules">Area rules worth remembering</h2>
+<table><thead><tr><th>Tool</th><th>Use it for</th></tr></thead><tbody><tr><td><code>nav.areaMask("Road", "Ground")</code></td><td>Hard permission: route may only cross named areas in the mask.</td></tr><tr><td><code>nav.areaCosts({ Road: 1, Mud: 4 })</code></td><td>Soft preference: both areas remain legal, but Mud becomes more expensive.</td></tr><tr><td><code>NavAgent2D.radius</code></td><td>Per-agent clearance; larger agents can be blocked by corridors smaller agents can use.</td></tr></tbody></table>

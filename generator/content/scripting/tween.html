@@ -1,0 +1,84 @@
+<!--meta {"title": "Tween API", "description": "Animate numeric properties smoothly with tween(), choose from 33 easing curves, and stop animations with cancelTween().", "lede": "Animate numeric properties smoothly with tween(), choose from 33 easing curves, and stop animations with cancelTween()."} -->
+<h2 id="overview">Overview</h2>
+<p><code>tween(target, properties, duration, easing, onComplete)</code> smoothly moves one or more numeric properties from their current value to a target value over a number of <strong>game seconds</strong>. It is a global function, available in every script with no import. It returns a numeric id you can pass to <code>cancelTween(id)</code>.</p>
+<div class="table-wrap"><table><thead><tr><th>Argument</th><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>target</code></td><td>object</td><td>An entity context (<code>this</code>, or the result of <code>findFirst()</code> etc.) or a scripting component object such as <code>this.sprite</code>, <code>this.light</code> or <code>this.camera</code>.</td></tr>
+<tr><td><code>properties</code></td><td>object</td><td>Map of property name to end value, for example <code>{ x: 420, y: 180 }</code>. Only finite numbers are accepted as end values.</td></tr>
+<tr><td><code>duration</code></td><td>number</td><td>Length in game seconds. <code>0</code> (or an invalid value) completes on the next tween update.</td></tr>
+<tr><td><code>easing</code></td><td>string</td><td>Optional. One of the <a href="#easing-catalogue">33 easing names</a>. Empty or omitted means <code>"linear"</code>.</td></tr>
+<tr><td><code>onComplete</code></td><td>function</td><td>Optional. Called once when the tween finishes, with <code>this</code> bound to the entity that started the tween.</td></tr>
+</tbody></table></div>
+<pre><code>function onStart() {
+  // Move, spin and resize over 0.8 game seconds
+  tween(this, { x: 420, y: 180, rotation: 90, scaleX: 1.2, scaleY: 1.2 }, 0.8, "easeOutCubic", function () {
+    // "this" is still the entity that started the tween
+    tween(this.sprite, { opacity: 0.25 }, 0.35, "easeInOutSine");
+  });
+}</code></pre>
+
+<h2 id="what-can-be-tweened">What can be tweened</h2>
+<p>A property is tweened only if it <strong>already exists on the target and currently holds a finite number</strong>. Properties that are missing, non-numeric (colours are hex strings, <code>position</code> and <code>scale</code> are objects) or non-finite are skipped.</p>
+<div class="table-wrap"><table><thead><tr><th>Target</th><th>Typical tweenable properties</th></tr></thead><tbody>
+<tr><td><code>this</code> (entity)</td><td><code>x</code>, <code>y</code>, <code>rotation</code>, <code>scaleX</code>, <code>scaleY</code></td></tr>
+<tr><td><code>this.sprite</code></td><td><code>opacity</code></td></tr>
+<tr><td><code>this.shape</code></td><td><code>width</code>, <code>height</code>, <code>radius</code>, <code>opacity</code>, <code>outlineWidth</code></td></tr>
+<tr><td><code>this.text</code></td><td><code>fontSize</code>, <code>opacity</code></td></tr>
+<tr><td><code>this.light</code></td><td><code>intensity</code>, <code>radius</code>, <code>angle</code>, <code>shadowStrength</code></td></tr>
+<tr><td><code>this.audio</code></td><td><code>volume</code>, <code>pitch</code></td></tr>
+<tr><td><code>this.camera</code></td><td><code>zoom</code>, <code>offsetX</code>, <code>offsetY</code></td></tr>
+<tr><td><code>this.strokePath</code></td><td><code>thickness</code>, <code>opacity</code>, <code>textureOffset</code></td></tr>
+<tr><td><code>scene.lighting</code></td><td><code>ambientDarkness</code>, <code>glowStrength</code></td></tr>
+</tbody></table></div>
+<p>Any numeric member listed on a component's Script API table can be a tween target. Each tween writes through the normal script API, so setter rules (clamping, validation) still apply.</p>
+
+<h2 id="cancelling">Cancelling</h2>
+<pre><code>var id = tween(this, { x: 700 }, 2, "easeOutBounce");
+// later
+var wasActive = cancelTween(id);   // true only if a tween with that id was still running</code></pre>
+<p><code>cancelTween()</code> leaves the property at whatever value it had reached. <code>onComplete</code> is not called for a cancelled tween.</p>
+
+<h2 id="behavior">Behavior and rules</h2>
+<ul>
+<li><strong>Start tweens from lifecycle callbacks</strong> such as <code>onStart()</code>, <code>onClick()</code> or a collision handler. Calling <code>tween()</code> outside script execution logs <code>[tween]</code> warning and returns <code>-1</code>. Avoid creating a new tween every frame in <code>onUpdate()</code>; start one and let it run.</li>
+<li><strong>Game time.</strong> Tweens advance once per frame after <code>onUpdate</code> callbacks, using the scaled frame clock. <a href="time-scale.html"><code>time.scale</code></a> speeds them up or slows them down, and <code>scene.pause()</code> freezes them.</li>
+<li><strong>Exact finish.</strong> When progress reaches 1 the property is set to the exact end value, so back/elastic overshoot never leaves a rounding error.</li>
+<li><strong>Several properties at once</strong> in one call share the same duration and easing.</li>
+<li><strong>Automatic cleanup.</strong> A tween ends silently if the entity that started it, or the entity it targets, is destroyed. Restarting or switching scenes clears all tweens.</li>
+<li><strong>Errors.</strong> If an easing function or a property setter throws, that tween is removed and the error is reported in the Console with the owning entity name. A completion callback that throws is reported as <code>tween onComplete</code>.</li>
+<li><strong>Return value.</strong> Invalid input (bad target, properties not an object, unknown easing, no numeric properties, non-function <code>onComplete</code>) returns <code>-1</code> and logs a <code>[tween]</code> warning that says what to fix. An unknown easing name is never silently treated as linear.</li>
+<li><strong>Easing names</strong> are case-insensitive and ignore spaces, hyphens and underscores, so <code>"EASE-OUT-QUAD"</code> equals <code>"easeOutQuad"</code>.</li>
+</ul>
+<div class="callout warn"><strong>Tweening physics bodies</strong><div>Assigning <code>x</code> or <code>y</code> on an entity that has a Dynamic or Kinematic Rigidbody2D teleports the body each frame. For moving physics objects use velocities or forces; use tween for transforms, opacity, UI, lights, cameras and Static or non-physics entities.</div></div>
+
+<h2 id="editor-support">Editor support</h2>
+<p>The Script Editor autocompletes <code>tween</code> and <code>cancelTween</code>, and offers the easing names inside the easing string (type <code>tween(this, { x: 100 }, 1, "easeOut</code> and the matching names appear). Both names are syntax-highlighted as engine globals.</p>
+
+<h2 id="easing-catalogue">Easing catalogue</h2>
+<p>Every name below is a real engine easing. Each preview is drawn from the engine's own easing function: the horizontal axis is time (0 to 1) and the vertical axis is progress. The dashed lines mark the start value (bottom) and end value (top); curves that cross them overshoot on purpose. <strong>In</strong> starts slowly, <strong>Out</strong> ends slowly, <strong>InOut</strong> does both.</p>
+<!--EASINGS-->
+
+<h2 id="recipes">Recipes</h2>
+<h3>Fade out and destroy</h3>
+<pre><code>function onClick() {
+  tween(this.sprite, { opacity: 0 }, 0.4, "easeInQuad", function () {
+    this.destroy();
+  });
+}</code></pre>
+<h3>Pop-in UI</h3>
+<pre><code>function onStart() {
+  this.scaleX = 0;
+  this.scaleY = 0;
+  tween(this, { scaleX: 1, scaleY: 1 }, 0.5, "easeOutBack");
+}</code></pre>
+<h3>Light pulse that can be stopped</h3>
+<pre><code>function onStart() {
+  this._pulse = tween(this.light, { intensity: 2 }, 0.6, "easeInOutSine", function () {
+    tween(this.light, { intensity: 0.5 }, 0.6, "easeInOutSine");
+  });
+}
+function onDestroy() { cancelTween(this._pulse); }</code></pre>
+<h3>Slow-motion hit stop with a tween that ignores nothing</h3>
+<pre><code>function onCollisionEnter(other) {
+  time.scale = 0.2;                 // tweens and timers slow down too
+  wait(0.3, function () { time.scale = 1; });
+}</code></pre>

@@ -1,0 +1,17 @@
+<!--meta {"title": "Entity context", "description": "Reference the `this` object and entity-aware shortcuts available in Realot Studio scripts.", "lede": "Reference the `this` object and entity-aware shortcuts available in Realot Studio scripts."} -->
+<h2 id="core-members">Core members</h2><div class="table-wrap"><table><thead><tr><th>Member</th><th>Meaning</th></tr></thead><tbody><tr><td>x, y</td><td>World position; writes to physics position targets when a non-static Rigidbody2D exists.</td></tr><tr><td>position</td><td>Read/assign {x,y}.</td></tr><tr><td>rotation</td><td>Degrees.</td></tr><tr><td>scaleX, scaleY</td><td>Scale.</td></tr><tr><td>translate(dx,dy)</td><td>Move by a delta.</td></tr><tr><td>distanceTo(x,y)</td><td>Distance to a world point.</td></tr><tr><td>name</td><td>Read-only entity name.</td></tr><tr><td>tag</td><td>Read/write tag.</td></tr><tr><td>id</td><td>Stable unique ID.</td></tr><tr><td>visible</td><td>Show/hide entity.</td></tr><tr><td>enabled</td><td>Enable/disable the current script.</td></tr><tr><td>destroy()</td><td>Queue entity destruction.</td></tr><tr><td>destroyed</td><td>Read-only destruction state.</td></tr><tr><td>isClone</td><td>True for runtime-spawned clones.</td></tr></tbody></table></div><pre><code>function onUpdate() {
+  this.translate(0, -50 * time.deltaTime); // move up
+  var target = findFirst("Target");
+  if (target &amp;&amp; this.distanceTo(target.x, target.y) &lt; 40) {
+    this.destroy();
+  }
+}</code></pre><h2 id="component-modules">Component modules</h2><p>Depending on attached components, <code>this</code> exposes modules including <code>transform</code>, <code>sprite</code>, <code>shape</code>, <code>text</code>, <code>speechBubble</code>, <code>chat</code>, <code>textInput</code>, <code>joystick</code>, <code>rigidbody</code>, <code>controller</code>, <code>animator</code>, <code>camera</code>, <code>audio</code>, <code>ear</code>, <code>collider</code>, <code>joint</code>, <code>navAgent</code>, <code>light</code>, <code>shadowCaster</code> and <code>strokePath</code>.</p><pre><code>function onUpdate() {
+  if (this.hasComponent("Rigidbody2D")) {
+    this.rigidbody.addForce(0, -500);
+  }
+  this.sprite.opacity = this.isPointerOver ? 1 : 0.6;
+}</code></pre><h2 id="timers-belong-to-entities">Timers belong to entities</h2><p>Both <code>wait()</code> and <code>repeat()</code> are associated with the scheduling entity. When the entity is destroyed or a scene restarts/switches, its timers are automatically cancelled.</p><pre><code>function onStart() {
+  this.wait(1.5, function () {
+    this.sprite.opacity = 1; // this is still the entity that scheduled the timer
+  });
+}</code></pre><h2 id="pointer-helpers">Pointer helpers</h2><div class="callout info"><strong>Collider requirement</strong><div><code>isPointerOver</code>, <code>isClicked</code>, <code>isTouchOver</code>, <code>isTapped</code> and <code>myTouch</code> require Collider2D because hit testing uses the real collider shape.</div></div>

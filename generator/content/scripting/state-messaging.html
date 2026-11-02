@@ -1,0 +1,20 @@
+<!--meta {"title": "State & messaging", "description": "Build lightweight state machines and decoupled entity communication.", "lede": "Build lightweight state machines and decoupled entity communication."} -->
+<h2 id="state-machine">State machine</h2><p>Every entity gets <code>this.state</code> without a dedicated component. <code>current</code> starts as <code>"default"</code>; <code>previous</code> is the state before the last transition. <code>change(name)</code> is a no-op when the name is already current.</p><h2 id="state-callbacks">State callbacks</h2><pre><code>function onStateEnter() {
+  if (this.state.current === "chasing") {
+    this.animator.play("Run");
+  }
+}
+
+function onStateUpdate(dt) {
+  if (this.state.current === "chasing") {
+    // chase logic
+  }
+}</code></pre><h2 id="messages">Messages</h2><pre><code>function onStart() {
+  sendMessage("Enemy", "takeDamage", { amount: 10 });
+}
+
+function onMessage(message, data) {
+  if (message === "takeDamage") {
+    this.hp -= data.amount;
+  }
+}</code></pre><h2 id="when-to-use-messages">When to use messages</h2><p>Messaging is useful when entities should react to an event without knowing another entity’s exact implementation. Use <code>findById</code>/<code>sendMessage(entity,...)</code> when you need one exact target; use a tag when you intentionally want a group.</p>

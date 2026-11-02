@@ -1,0 +1,109 @@
+<!--meta {"title": "Navigation: complete setup", "description": "Build, paint, name, script, tune, debug, and ship a complete Realot Studio navigation setup without skipping the hard parts.", "lede": "Build, paint, name, script, tune, debug, and ship a complete Realot Studio navigation setup without skipping the hard parts."} -->
+<h2 id="mental-model">The complete model: five pieces, one pipeline</h2>
+<p>Realot Studio navigation is easiest to understand as a pipeline rather than as one button. A scene normally has <strong>one shared NavWorld2D</strong>; the NavWorld stores the base walkability grid, each NavAgent2D supplies per-agent size/restrictions, and script movement consumes the resulting path.</p>
+<div class="flow"><span class="node">Static Collider2D geometry</span><span class="arrow">→</span><span class="node">NavWorld2D bake / paint</span><span class="arrow">→</span><span class="node">Area mask + costs</span><span class="arrow">→</span><span class="node">Agent radius</span><span class="arrow">→</span><span class="node">A* path</span><span class="arrow">→</span><span class="node">Agent steering / avoidance</span></div>
+<div class="callout info"><strong>Important distinction</strong> The navigation grid answers “which route is possible?” while avoidance answers “how should this agent steer around nearby agents/obstacles?” Do not try to solve both by constantly rebaking the world.</div>
+<h2 id="step-by-step">End-to-end setup: from empty scene to moving NPC</h2>
+<div class="recipe">
+<h3>Goal: make one NPC walk around walls to the target</h3>
+<div class="step"><div class="num">1</div><div><strong>Create the navigation world.</strong> In the editor top menu, open <span class="ui-path">GameObject → 2D Object → Nav World 2D</span>. Select the new Nav World 2D entity in the Hierarchy; its fields appear in the right-side Inspector under <strong>Nav World 2D</strong>.</div></div>
+<div class="step"><div class="num">2</div><div><strong>Set the navigation rectangle.</strong> In the Inspector, edit <code>Bounds X</code>, <code>Bounds Y</code>, <code>Bounds Width</code>, and <code>Bounds Height</code>. The bounds define the grid region; they do not move the entity's Transform by themselves.</div></div>
+<div class="step"><div class="num">3</div><div><strong>Choose Cell Size.</strong> Smaller values give finer obstacle detail but create more cells. Start around <code>32</code> world units, then reduce it only when a corridor or obstacle genuinely needs more resolution.</div></div>
+<div class="step"><div class="num">4</div><div><strong>Make walls real navigation obstacles.</strong> Give the walls a <strong>Collider2D</strong> and, for baked/static geometry, leave the Rigidbody absent or Static. Triggers and Dynamic/Kinematic rigidbodies are not treated as baked obstacles.</div></div>
+<div class="step"><div class="num">5</div><div><strong>Bake.</strong> In the selected Nav World 2D Inspector use <strong>Bake Nav World</strong> after the static geometry is ready. The runtime API equivalent is <code>nav.bake()</code>. Most games bake in the editor once.</div></div>
+<div class="step"><div class="num">6</div><div><strong>Inspect the result.</strong> When a Nav World exists, the top-center editor toolbar gains the navigation tools. Use the <span class="kbd">Bounds</span> view to see the overall rectangle cheaply, then the <span class="kbd">Cells</span> view for detailed walkability.</div></div>
+<div class="step"><div class="num">7</div><div><strong>Manually fix special cells.</strong> Press <span class="kbd">U</span> for the Walkable brush, <span class="kbd">I</span> for the Blocked brush, and <span class="kbd">O</span> for the Area brush. Normal click paints; <strong>Alt+click</strong> clears that override. The <code>−</code>/<code>+</code> brush buttons beside the nav display controls reduce/increase the brush radius.</div></div>
+<div class="step"><div class="num">8</div><div><strong>Add the agent.</strong> Select the NPC in the Hierarchy and use <span class="ui-path">Inspector → Add Component → Nav Agent 2D</span>. Start with <code>Radius 16</code>, <code>Speed 120</code>, <code>Auto Repath ON</code>, and the default area mask.</div></div>
+<div class="step"><div class="num">9</div><div><strong>Attach the movement script.</strong> On the NPC's Script component, use the following minimal loop:</div></div>
+</div>
+<pre><code>function onUpdate(dt) {
+  var target = findFirst("Target");
+  if (!target) return;
+
+  this.navMoveToward(target.x, target.y, 120, {
+    repathInterval: 0.25,
+    finalArriveDist: 12,
+    debug: true
+  });
+}</code></pre>
+<div class="callout success"><strong>What should happen</strong> The NPC requests a path, advances through the returned waypoints, periodically rechecks the target, and stops inside the final arrival radius. The green debug path appears for a frame when <code>debug:true</code> is used and the debug overlay is visible.</div>
+<h2 id="editor-navigation-controls">Every navigation editor control, in context</h2>
+<table><thead><tr><th>Control</th><th>Where it appears</th><th>What it does</th><th>Increase / decrease behavior</th></tr></thead><tbody>
+<tr><td><code>Nav World 2D</code></td><td><span class="ui-path">GameObject → 2D Object → Nav World 2D</span></td><td>Adds the shared navigation grid component/entity.</td><td>One shared world per scene is the normal design.</td></tr>
+<tr><td><code>Bounds X / Y</code></td><td>Right Inspector → Nav World 2D</td><td>Moves the grid rectangle relative to the Nav World entity.</td><td>Larger positive/negative values shift the grid rectangle; they do not resize it.</td></tr>
+<tr><td><code>Bounds W / H</code></td><td>Right Inspector → Nav World 2D</td><td>Controls navigation coverage.</td><td>Larger = larger navigable region and more cells; smaller = less coverage.</td></tr>
+<tr><td><code>Cell Size</code></td><td>Right Inspector → Nav World 2D</td><td>Controls grid resolution.</td><td>Smaller = more precise/narrower features represented, more cells/work. Larger = cheaper, but narrow geometry may disappear into one cell.</td></tr>
+<tr><td><code>Bake Nav World</code></td><td>Right Inspector → Nav World 2D</td><td>Reads eligible Collider2D geometry and produces the base walkability grid.</td><td>Run after changing static obstacles unless Dynamic mode is being used.</td></tr>
+<tr><td><code>Dynamic</code></td><td>Right Inspector → Nav World 2D</td><td>Enables automatic rebaking when bake-relevant static geometry changes.</td><td>ON = convenience for runtime-changing static-like geometry; OFF = avoid rebake work for mostly-static levels.</td></tr>
+<tr><td><code>Allow Diagonal</code></td><td>Right Inspector → Nav World 2D</td><td>Controls whether A* may use diagonal grid neighbors.</td><td>OFF = 4-neighbor grid; ON = diagonals become valid route steps.</td></tr>
+<tr><td><code>U</code> Walkable</td><td>Top editor toolbar; only after Nav World 2D exists</td><td>Paints an explicit walkable override.</td><td>Brush size is controlled by the nearby <code>−</code>/<code>+</code> buttons.</td></tr>
+<tr><td><code>I</code> Blocked</td><td>Top editor toolbar; only after Nav World 2D exists</td><td>Paints an explicit blocked override.</td><td>Same brush-size controls and Alt+click erase behavior.</td></tr>
+<tr><td><code>O</code> Area</td><td>Top editor toolbar; only after Nav World 2D exists</td><td>Paints the selected navigation area onto cells.</td><td>Area choice appears beside the brush only while Area mode is active.</td></tr>
+<tr><td><code>Edit → Nav Areas…</code></td><td>Top editor menu <span class="ui-path">Edit</span></td><td>Names the 16 navigation area slots.</td><td>Names are used later by <code>nav.areaMask()</code> and <code>nav.areaCosts()</code>.</td></tr>
+<tr><td><code>Bounds / Cells</code> view buttons</td><td>Top toolbar beside nav tools</td><td>Switches between cheap bounds visualization and detailed cell visualization.</td><td>Cells view is the one to use when diagnosing exact painted/baked coverage.</td></tr>
+</tbody></table>
+<h2 id="named-areas">Named areas: hard restrictions vs soft preferences</h2>
+<p>Realot Studio exposes 16 navigation-area slots. Name them with <span class="ui-path">Edit → Nav Areas…</span>, then use the names in script instead of memorizing bit positions.</p>
+<h3>Hard restriction: Area Mask</h3>
+<pre><code>var allowed = nav.areaMask("Ground", "Road");
+var path = nav.findPath(this.x, this.y, 800, 300, {
+  area: allowed,
+  radius: 16
+});</code></pre>
+<p>An area omitted from the mask is <strong>impassable for that query</strong>. This is different from cost.</p>
+<h3>Soft preference: Area Cost</h3>
+<pre><code>var path = nav.findPath(this.x, this.y, 800, 300, {
+  area: nav.areaMask("Ground", "Road", "Mud"),
+  areaCosts: nav.areaCosts({
+    Road: 0.5,
+    Mud: 4
+  })
+});</code></pre>
+<p>Cost changes route preference among allowed areas. A cost of <code>1</code> is neutral; a higher value makes that area more expensive; a lower positive value makes it more attractive. Cost does not turn an allowed area into a hard wall.</p>
+<div class="callout warn"><strong>Common mistake</strong> Do not use <code>areaCosts: { Water: 0 }</code> to try to block water. Use <code>nav.areaMask(...)</code> and leave Water out of the mask.</div>
+<h2 id="agent-tuning">NavAgent2D tuning: what every major value actually changes</h2>
+<table><thead><tr><th>Field</th><th>Increase it</th><th>Decrease it</th><th>Use it when…</th></tr></thead><tbody>
+<tr><td><code>radius</code></td><td>Agent needs wider clearance; narrow passages become unavailable sooner.</td><td>Agent can fit through tighter passages.</td><td>Different NPC sizes need to share the same NavWorld.</td></tr>
+<tr><td><code>speed</code></td><td>Higher top movement speed.</td><td>Slower movement.</td><td>Simple traversal pacing.</td></tr>
+<tr><td><code>acceleration</code></td><td>Reaches the requested speed faster.</td><td>Softer/slower speed changes.</td><td>Making movement feel snappy vs floaty.</td></tr>
+<tr><td><code>deceleration</code></td><td>Stops more quickly.</td><td>Longer, softer stopping.</td><td>Preventing overshoot near goals.</td></tr>
+<tr><td><code>stoppingDistance</code></td><td>Agent intentionally stops farther away.</td><td>Agent gets closer to target.</td><td>Enemies should keep melee/shooting distance.</td></tr>
+<tr><td><code>repathInterval</code></td><td>Fewer route checks; cheaper.</td><td>More frequent route checks; more responsive and more expensive.</td><td>Balancing moving-target responsiveness vs CPU work.</td></tr>
+<tr><td><code>repathDistance</code></td><td>Target must move farther before a re-path is triggered.</td><td>Target motion triggers re-path sooner.</td><td>Fast-moving targets.</td></tr>
+<tr><td><code>avoidancePriority</code></td><td>Higher priority means the agent is treated as more important in avoidance decisions.</td><td>Lower priority makes it more willing to yield.</td><td>Mixed-priority crowds or special NPCs.</td></tr>
+<tr><td><code>area</code></td><td>Add area bits to permit additional terrain categories.</td><td>Remove bits to forbid categories.</td><td>Making a route legally impossible through a terrain class.</td></tr>
+</tbody></table>
+<h2 id="vehicle-navigation">Complete car / road navigation flow</h2>
+<p>Vehicle navigation is not simply “walk an NPC path with a car sprite.” Realot Studio exposes <code>this.navDriveToward()</code> specifically for Car-type CharacterController movement and the NavAgent2D vehicle tuning fields.</p>
+<div class="recipe">
+<div class="step"><div class="num">1</div><div>Make the road surface part of the NavWorld and name it, for example, <code>Road</code>. Use another area such as <code>Ground</code> for ordinary terrain.</div></div>
+<div class="step"><div class="num">2</div><div>Add <strong>Nav Agent 2D</strong> to the car. Set <code>collabEnabled</code> or avoidance only when you actually need those behaviors.</div></div>
+<div class="step"><div class="num">3</div><div>Use <code>nav.areaMask("Road")</code> when the car must stay on roads. Use a wider mask if road-only routing is too restrictive.</div></div>
+<div class="step"><div class="num">4</div><div>Drive toward the destination:</div></div>
+</div>
+<pre><code>function onUpdate(dt) {
+  var target = findFirst("Destination");
+  if (!target) return;
+
+  this.navDriveToward(target.x, target.y, 220, {
+    repathInterval: 0.2,
+    arriveDist: 8,
+    finalArriveDist: 18,
+    debug: true
+  });
+}</code></pre>
+<p>For road-vs-ground preference, allow both and use costs instead of a hard mask:</p>
+<pre><code>var path = nav.findPath(this.x, this.y, target.x, target.y, {
+  area: nav.areaMask("Road", "Ground"),
+  areaCosts: nav.areaCosts({ Ground: 3, Road: 1 })
+});</code></pre>
+<div class="callout info"><strong>Tuning order for vehicles</strong> First make the NavWorld route correct. Then tune agent radius. Then tune speed/acceleration/deceleration. Only after that adjust the vehicle lookahead/smoothing/braking fields. This separates route problems from steering problems.</div>
+<h2 id="dynamic-worlds">When to use Dynamic</h2>
+<p>Turn on <strong>Dynamic</strong> only when bake-relevant static geometry can actually change during play. The runtime checks a cheap collider signature and rebakes when the signature changes; it does not blindly rebake the entire world every frame. Dynamic navigation still has a real rebake cost when qualifying geometry changes.</p>
+<pre><code>// Procedural level example: after spawning a new static obstacle
+var result = nav.bake();
+if (result) debug.log("Nav rebuilt: " + result.walkable + " walkable, " + result.blocked + " blocked");</code></pre>
+<h2 id="debugging-nav">Navigation debugging checklist</h2>
+<div class="checklist"><strong>1.</strong> Is a Nav World 2D actually present in the scene?<br/><strong>2.</strong> Are the walls using Collider2D and eligible for baking?<br/><strong>3.</strong> Did you bake after editing static geometry?<br/><strong>4.</strong> Does Cells view show the corridor as walkable?<br/><strong>5.</strong> Is the agent radius too large for that corridor?<br/><strong>6.</strong> Is the Area Mask accidentally excluding the only available route?<br/><strong>7.</strong> Are you confusing area cost with a hard restriction?<br/><strong>8.</strong> Is your target inside the NavWorld bounds or at least near a walkable cell?<br/><strong>9.</strong> Is the script calling the correct method for the movement type (<code>navMoveToward</code> vs <code>navDriveToward</code>)?<br/><strong>10.</strong> Turn on <code>debug:true</code> and make the debug overlay visible to inspect the actual route.</div>
+<h2 id="llm-recipe">LLM/code-generation rule</h2>
+<p>When generating navigation code, preserve this dependency order: <strong>NavWorld2D → walkability/bake → named areas → NavAgent2D → script movement → tuning</strong>. Do not invent properties such as <code>destination</code>, <code>setDestination</code>, or a Unity/Godot class when Realot Studio's documented API is <code>this.navMoveToward()</code>, <code>nav.findPath()</code>, and <code>this.navAgent.*</code>.</p>

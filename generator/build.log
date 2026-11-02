@@ -1,0 +1,369 @@
+api/components/audiolistener: AudioListener.enabled added
+api/components/audiolistener: AudioListener script API + canHear
+api/components/audiolistener: AudioListener script API kind corrected: enabled
+api/components/audiolistener: AudioListener script API kind corrected: radius
+api/components/audiolistener: AudioListener script API + sourcesInRange
+api/components/audiosource: AudioSource script API kind corrected: pitch
+api/components/audiosource: AudioSource script API kind corrected: playing
+api/components/audiosource: AudioSource script API kind corrected: volume
+api/components/camera: Camera.renderToSpriteEntityId added
+api/components/camera: Camera script API kind corrected: allowStretching
+api/components/camera: Camera script API kind corrected: aspectMode
+api/components/camera: Camera script API kind corrected: aspectRatioLock
+api/components/camera: Camera script API kind corrected: backgroundColor
+api/components/camera: Camera script API kind corrected: barColor
+api/components/camera: Camera script API kind corrected: customHeight
+api/components/camera: Camera script API kind corrected: customWidth
+api/components/camera: Camera script API kind corrected: enablePseudo3D
+api/components/camera: Camera script API kind corrected: integerScaling
+api/components/camera: Camera script API kind corrected: keepHeight
+api/components/camera: Camera script API kind corrected: landscapeHeight
+api/components/camera: Camera script API kind corrected: landscapeWidth
+api/components/camera: Camera script API kind corrected: letterboxing
+api/components/camera: Camera script API kind corrected: offsetX
+api/components/camera: Camera script API kind corrected: offsetY
+api/components/camera: Camera script API kind corrected: pillarboxing
+api/components/camera: Camera script API kind corrected: portraitHeight
+api/components/camera: Camera script API kind corrected: portraitWidth
+api/components/camera: Camera script API kind corrected: scalingMode
+api/components/camera: Camera script API kind corrected: squareSize
+api/components/camera: Camera script API + x
+api/components/camera: Camera script API + y
+api/components/camera: Camera script API kind corrected: zoom
+api/components/charactercontroller: CharacterController.requestJump added
+api/components/charactercontroller: CharacterController.requestMoveX added
+api/components/charactercontroller: CharacterController.requestMoveY added
+api/components/charactercontroller: CharacterController.requestThrottle added
+api/components/charactercontroller: CharacterController.requestSteer added
+api/components/charactercontroller: CharacterController.requestJoystickX added
+api/components/charactercontroller: CharacterController.requestJoystickY added
+api/components/charactercontroller: CharacterController.requestDriveTowardX added
+api/components/charactercontroller: CharacterController.requestDriveTowardY added
+api/components/charactercontroller: CharacterController.requestFlip added
+api/components/charactercontroller: CharacterController script API kind corrected: acceleration
+api/components/charactercontroller: CharacterController script API kind corrected: airControl
+api/components/charactercontroller: CharacterController script API kind corrected: brakeForce
+api/components/charactercontroller: CharacterController script API kind corrected: canJump
+api/components/charactercontroller: CharacterController script API kind corrected: controllerType
+api/components/charactercontroller: CharacterController script API kind corrected: driftFactor
+api/components/charactercontroller: CharacterController script API + driveTowardArriveDistance
+api/components/charactercontroller: CharacterController script API kind corrected: facingDirection
+api/components/charactercontroller: CharacterController script API kind corrected: followDistance
+api/components/charactercontroller: CharacterController script API kind corrected: followSpeed
+api/components/charactercontroller: CharacterController script API kind corrected: gravityScale
+api/components/charactercontroller: CharacterController script API kind corrected: groundAngle
+api/components/charactercontroller: CharacterController script API kind corrected: isGrounded
+api/components/charactercontroller: CharacterController script API kind corrected: isOnCeiling
+api/components/charactercontroller: CharacterController script API kind corrected: isOnSlope
+api/components/charactercontroller: CharacterController script API kind corrected: isOnWall
+api/components/charactercontroller: CharacterController script API kind corrected: jumpForce
+api/components/charactercontroller: CharacterController script API kind corrected: maxJumps
+api/components/charactercontroller: CharacterController script API kind corrected: maxSpeed
+api/components/charactercontroller: CharacterController script API kind corrected: moveSpeed
+api/components/charactercontroller: CharacterController script API kind corrected: patrolAxis
+api/components/charactercontroller: CharacterController script API kind corrected: patrolDistance
+api/components/charactercontroller: CharacterController script API kind corrected: patrolMode
+api/components/charactercontroller: CharacterController script API kind corrected: targetName
+api/components/charactercontroller: CharacterController script API kind corrected: turnSpeed
+api/components/charactercontroller: CharacterController script API kind corrected: useDefaultInput
+api/components/charactercontroller: CharacterController script API kind corrected: useGravity
+api/components/chatlog: ChatLog script API kind corrected: backgroundColor
+api/components/chatlog: ChatLog script API kind corrected: backgroundOpacity
+api/components/chatlog: ChatLog script API kind corrected: fontFamily
+api/components/chatlog: ChatLog script API kind corrected: fontSize
+api/components/chatlog: ChatLog script API kind corrected: lineHeight
+api/components/chatlog: ChatLog script API kind corrected: maxMessages
+api/components/chatlog: ChatLog script API kind corrected: messageColor
+api/components/chatlog: ChatLog script API kind corrected: messages
+api/components/chatlog: ChatLog script API kind corrected: padding
+api/components/chatlog: ChatLog script API kind corrected: screenSpace
+api/components/chatlog: ChatLog script API kind corrected: senderColor
+api/components/chatlog: ChatLog script API kind corrected: showSender
+api/components/chatlog: ChatLog script API kind corrected: visible
+api/components/chatlog: ChatLog script API kind corrected: visibleCount
+api/components/chatlog: ChatLog script API kind corrected: width
+api/components/collider2d: Collider2D.trianglePoints default → [{x:-0.5,y:0.5}, {x:0.5,y:0.5}, {x:0,y:-0.5}]
+api/components/collider2d: Collider2D.rotation added
+api/components/collider2d: Collider2D.oneWayDirection added
+api/components/collider2d: Collider2D script API kind corrected: capsuleHalfHeight
+api/components/collider2d: Collider2D script API kind corrected: capsuleRadius
+api/components/collider2d: Collider2D script API kind corrected: density
+api/components/collider2d: Collider2D script API kind corrected: friction
+api/components/collider2d: Collider2D script API kind corrected: height
+api/components/collider2d: Collider2D script API kind corrected: isColliding
+api/components/collider2d: Collider2D script API kind corrected: isOneWayPlatform
+api/components/collider2d: Collider2D script API kind corrected: isTrigger
+api/components/collider2d: Collider2D script API kind corrected: layer
+api/components/collider2d: Collider2D script API kind corrected: mask
+api/components/collider2d: Collider2D script API kind corrected: offset
+api/components/collider2d: Collider2D script API + oneWayDirection
+api/components/collider2d: Collider2D script API kind corrected: radius
+api/components/collider2d: Collider2D script API kind corrected: restitution
+api/components/collider2d: Collider2D script API + rotation
+api/components/collider2d: Collider2D script API kind corrected: shape
+api/components/collider2d: Collider2D script API kind corrected: width
+api/components/joint2d: Joint2D.damping default → 18
+api/components/joint2d: Joint2D.flexibility added
+api/components/joint2d: Joint2D.jointDrag added
+api/components/joint2d: Joint2D.restStiffness added
+api/components/joint2d: Joint2D.breakable added
+api/components/joint2d: Joint2D.breakForce added
+api/components/joint2d: Joint2D.disableConnectedCollision added
+api/components/joint2d: Joint2D.collideConnected default → undefined
+api/components/joint2d: Joint2D script API kind corrected: anchor1
+api/components/joint2d: Joint2D script API kind corrected: anchor2
+api/components/joint2d: Joint2D script API kind corrected: axis
+api/components/joint2d: Joint2D script API + breakForce
+api/components/joint2d: Joint2D script API + breakable
+api/components/joint2d: Joint2D script API kind corrected: collideConnected
+api/components/joint2d: Joint2D script API kind corrected: connectedEntity
+api/components/joint2d: Joint2D script API kind corrected: damping
+api/components/joint2d: Joint2D script API + disableConnectedCollision
+api/components/joint2d: Joint2D script API kind corrected: enabled
+api/components/joint2d: Joint2D script API + flexibility
+api/components/joint2d: Joint2D script API + jointDrag
+api/components/joint2d: Joint2D script API kind corrected: jointType
+api/components/joint2d: Joint2D script API kind corrected: length
+api/components/joint2d: Joint2D script API kind corrected: limitMax
+api/components/joint2d: Joint2D script API kind corrected: limitMin
+api/components/joint2d: Joint2D script API kind corrected: limitsEnabled
+api/components/joint2d: Joint2D script API kind corrected: motorEnabled
+api/components/joint2d: Joint2D script API kind corrected: motorMaxForce
+api/components/joint2d: Joint2D script API kind corrected: motorSpeed
+api/components/joint2d: Joint2D script API + restStiffness
+api/components/joint2d: Joint2D script API kind corrected: ropeMass
+api/components/joint2d: Joint2D script API kind corrected: segmentCount
+api/components/joint2d: Joint2D script API kind corrected: stiffness
+api/components/joint2d: Joint2D script API kind corrected: textureFlip
+api/components/joint2d: Joint2D script API kind corrected: textureKey
+api/components/joint2d: Joint2D script API kind corrected: textureMode
+api/components/joint2d: Joint2D script API kind corrected: textureOffset
+api/components/joint2d: Joint2D script API kind corrected: textureScale
+api/components/joint2d: Joint2D script API kind corrected: textureTiling
+api/components/joint2d: Joint2D script API kind corrected: useTexture
+api/components/joint2d: Joint2D script API kind corrected: visualColor
+api/components/joint2d: Joint2D script API kind corrected: visualEnabled
+api/components/joint2d: Joint2D script API kind corrected: visualThickness
+api/components/joystick: Joystick.x added
+api/components/joystick: Joystick.y added
+api/components/joystick: Joystick.magnitude added
+api/components/joystick: Joystick.angle added
+api/components/joystick: Joystick.active added
+api/components/joystick: Joystick.baseScreenX added
+api/components/joystick: Joystick.baseScreenY added
+api/components/joystick: Joystick script API kind corrected: active
+api/components/joystick: Joystick script API kind corrected: angle
+api/components/joystick: Joystick script API + baseColor
+api/components/joystick: Joystick script API + baseOpacity
+api/components/joystick: Joystick script API kind corrected: baseRadius
+api/components/joystick: Joystick script API kind corrected: deadZone
+api/components/joystick: Joystick script API + hideWhenIdle
+api/components/joystick: Joystick script API + idleOpacityMultiplier
+api/components/joystick: Joystick script API + knobColor
+api/components/joystick: Joystick script API + knobOpacity
+api/components/joystick: Joystick script API kind corrected: knobRadius
+api/components/joystick: Joystick script API kind corrected: magnitude
+api/components/joystick: Joystick script API + outlineColor
+api/components/joystick: Joystick script API + outlineWidth
+api/components/joystick: Joystick script API kind corrected: positionMode
+api/components/joystick: Joystick script API kind corrected: regionHeight
+api/components/joystick: Joystick script API kind corrected: regionWidth
+api/components/joystick: Joystick script API kind corrected: regionX
+api/components/joystick: Joystick script API kind corrected: regionY
+api/components/joystick: Joystick script API kind corrected: returnToCenter
+api/components/joystick: Joystick script API kind corrected: x
+api/components/joystick: Joystick script API kind corrected: y
+api/components/light: Light script API kind corrected: angle
+api/components/light: Light script API kind corrected: castShadows
+api/components/light: Light script API kind corrected: castsOnWorld
+api/components/light: Light script API kind corrected: color
+api/components/light: Light script API kind corrected: coreSize
+api/components/light: Light script API kind corrected: coreVisible
+api/components/light: Light script API kind corrected: flicker
+api/components/light: Light script API kind corrected: flickerDuration
+api/components/light: Light script API kind corrected: flickerSpeed
+api/components/light: Light script API kind corrected: height
+api/components/light: Light script API kind corrected: intensity
+api/components/light: Light script API kind corrected: radius
+api/components/light: Light script API kind corrected: shadowColor
+api/components/light: Light script API kind corrected: shadowStrength
+api/components/light: Light script API kind corrected: type
+api/components/light: Light script API kind corrected: width
+api/components/lightingsettings: LightingSettings script API kind corrected: ambientDarkness
+api/components/lightingsettings: LightingSettings script API kind corrected: glowStrength
+api/components/lightingsettings: LightingSettings script API kind corrected: raymarchSteps
+api/components/lightingsettings: LightingSettings script API kind corrected: shadowMode
+api/components/navagent2d: NavAgent2D.currentPath added
+api/components/navagent2d: NavAgent2D.currentPathIndex added
+api/components/navagent2d: NavAgent2D script API kind corrected: acceleration
+api/components/navagent2d: NavAgent2D script API kind corrected: area
+api/components/navagent2d: NavAgent2D script API kind corrected: areaCosts
+api/components/navagent2d: NavAgent2D script API kind corrected: autoRepath
+api/components/navagent2d: NavAgent2D script API kind corrected: avoidanceEnabled
+api/components/navagent2d: NavAgent2D script API kind corrected: avoidancePriority
+api/components/navagent2d: NavAgent2D script API kind corrected: collabEnabled
+api/components/navagent2d: NavAgent2D script API kind corrected: collabGroupRadius
+api/components/navagent2d: NavAgent2D script API kind corrected: currentPath
+api/components/navagent2d: NavAgent2D script API kind corrected: currentPathIndex
+api/components/navagent2d: NavAgent2D script API kind corrected: deceleration
+api/components/navagent2d: NavAgent2D script API kind corrected: radius
+api/components/navagent2d: NavAgent2D script API kind corrected: repathDistance
+api/components/navagent2d: NavAgent2D script API kind corrected: repathInterval
+api/components/navagent2d: NavAgent2D script API kind corrected: speed
+api/components/navagent2d: NavAgent2D script API kind corrected: stoppingDistance
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleCornerLookahead
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleCornerSlowdown
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleLookahead
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleObstacleBrake
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleObstacleLookahead
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleObstacleWidth
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleRecoveryReverseTime
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleRecoveryTime
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleSpeedSmoothing
+api/components/navagent2d: NavAgent2D script API kind corrected: vehicleSteerSmoothing
+api/components/rigidbody2d: Rigidbody2D.autoMass added
+api/components/rigidbody2d: Rigidbody2D.angularDamping default → 0
+api/components/rigidbody2d: Rigidbody2D.driveVelocityX added
+api/components/rigidbody2d: Rigidbody2D.driveVelocityY added
+api/components/rigidbody2d: Rigidbody2D.driveAngularVelocity added
+api/components/rigidbody2d: Rigidbody2D.grounded added
+api/components/rigidbody2d: Rigidbody2D.resolvedVelocityX added
+api/components/rigidbody2d: Rigidbody2D.resolvedVelocityY added
+api/components/rigidbody2d: Rigidbody2D.pendingForceX added
+api/components/rigidbody2d: Rigidbody2D.pendingForceY added
+api/components/rigidbody2d: Rigidbody2D.pendingImpulseX added
+api/components/rigidbody2d: Rigidbody2D.pendingImpulseY added
+api/components/rigidbody2d: Rigidbody2D.pendingTorque added
+api/components/rigidbody2d: Rigidbody2D.pendingAngularImpulse added
+api/components/rigidbody2d: Rigidbody2D script API + addForceAtPoint
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: angularDamping
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: gravityScale
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: groundAngle
+api/components/rigidbody2d: Rigidbody2D script API + groundAngleLimit
+api/components/rigidbody2d: Rigidbody2D script API + grounded
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: isGrounded
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: isOnCeiling
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: isOnSlope
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: isOnWall
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: linearDamping
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: mass
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: resolvedVelocity
+api/components/rigidbody2d: Rigidbody2D script API + slopeMinAngle
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: type
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: velocity
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: velocityX
+api/components/rigidbody2d: Rigidbody2D script API kind corrected: velocityY
+api/components/rigidbody2d: Rigidbody2D script API + wallAngleLimit
+api/components/script: Script.inspectValues added
+api/components/shadowcaster: ShadowCaster script API kind corrected: enabled
+api/components/shadowcaster: ShadowCaster script API kind corrected: height
+api/components/shadowcaster: ShadowCaster script API kind corrected: length
+api/components/shadowcaster: ShadowCaster script API kind corrected: offsetX
+api/components/shadowcaster: ShadowCaster script API kind corrected: offsetY
+api/components/shadowcaster: ShadowCaster script API kind corrected: opacity
+api/components/shadowcaster: ShadowCaster script API kind corrected: softness
+api/components/shadowcaster: ShadowCaster script API kind corrected: width
+api/components/shaperenderer: ShapeRenderer.trianglePoints default → [{x:-50,y:50}, {x:50,y:50}, {x:0,y:-50}]
+api/components/shaperenderer: ShapeRenderer.visualRotation added
+api/components/shaperenderer: ShapeRenderer script API kind corrected: capsuleHalfHeight
+api/components/shaperenderer: ShapeRenderer script API kind corrected: capsuleRadius
+api/components/shaperenderer: ShapeRenderer script API kind corrected: fillColor
+api/components/shaperenderer: ShapeRenderer script API kind corrected: height
+api/components/shaperenderer: ShapeRenderer script API kind corrected: opacity
+api/components/shaperenderer: ShapeRenderer script API kind corrected: outlineColor
+api/components/shaperenderer: ShapeRenderer script API kind corrected: outlineEnabled
+api/components/shaperenderer: ShapeRenderer script API kind corrected: outlineWidth
+api/components/shaperenderer: ShapeRenderer script API kind corrected: radius
+api/components/shaperenderer: ShapeRenderer script API kind corrected: shapeType
+api/components/shaperenderer: ShapeRenderer script API + visualRotation
+api/components/shaperenderer: ShapeRenderer script API kind corrected: width
+api/components/speechbubble: SpeechBubble.hideTimer added
+api/components/speechbubble: SpeechBubble script API kind corrected: backgroundColor
+api/components/speechbubble: SpeechBubble script API kind corrected: borderColor
+api/components/speechbubble: SpeechBubble script API kind corrected: borderWidth
+api/components/speechbubble: SpeechBubble script API kind corrected: cornerRadius
+api/components/speechbubble: SpeechBubble script API kind corrected: fontFamily
+api/components/speechbubble: SpeechBubble script API kind corrected: fontSize
+api/components/speechbubble: SpeechBubble script API kind corrected: maxWidth
+api/components/speechbubble: SpeechBubble script API kind corrected: offsetX
+api/components/speechbubble: SpeechBubble script API kind corrected: offsetY
+api/components/speechbubble: SpeechBubble script API kind corrected: padding
+api/components/speechbubble: SpeechBubble script API kind corrected: tailDirection
+api/components/speechbubble: SpeechBubble script API kind corrected: tailSize
+api/components/speechbubble: SpeechBubble script API kind corrected: text
+api/components/speechbubble: SpeechBubble script API kind corrected: textColor
+api/components/speechbubble: SpeechBubble script API kind corrected: visible
+api/components/spriteanimation: SpriteAnimation.frameElapsed added
+api/components/spriteanimation: SpriteAnimation script API kind corrected: currentClip
+api/components/spriteanimation: SpriteAnimation script API kind corrected: currentFrame
+api/components/spriteanimation: SpriteAnimation script API kind corrected: playing
+api/components/spriteanimation: SpriteAnimation script API kind corrected: speed
+api/components/spriteanimation: SpriteAnimation script API kind corrected: totalFrames
+api/components/spriterenderer: SpriteRenderer.visualRotation added
+api/components/spriterenderer: SpriteRenderer script API kind corrected: color
+api/components/spriterenderer: SpriteRenderer script API kind corrected: flipX
+api/components/spriterenderer: SpriteRenderer script API kind corrected: flipY
+api/components/spriterenderer: SpriteRenderer script API kind corrected: opacity
+api/components/spriterenderer: SpriteRenderer script API kind corrected: texture
+api/components/spriterenderer: SpriteRenderer script API + visualRotation
+api/components/strokepath: StrokePath.points default → [{x:-100,y:0}, {x:100,y:0}]
+api/components/strokepath: StrokePath.thickness default → 40
+api/components/strokepath: StrokePath.color default → #8a8a8a
+api/components/strokepath: StrokePath.textureTiling default → 100
+api/components/strokepath: StrokePath.jointMode default → round
+api/components/strokepath: StrokePath.capMode default → round
+api/components/strokepath: StrokePath.smoothing added
+api/components/strokepath: StrokePath script API + capMode
+api/components/strokepath: StrokePath script API kind corrected: color
+api/components/strokepath: StrokePath script API kind corrected: firstPoint
+api/components/strokepath: StrokePath script API + jointMode
+api/components/strokepath: StrokePath script API kind corrected: lastPoint
+api/components/strokepath: StrokePath script API kind corrected: opacity
+api/components/strokepath: StrokePath script API kind corrected: pointCount
+api/components/strokepath: StrokePath script API kind corrected: points
+api/components/strokepath: StrokePath script API kind corrected: textureFlip
+api/components/strokepath: StrokePath script API kind corrected: textureKey
+api/components/strokepath: StrokePath script API kind corrected: textureMode
+api/components/strokepath: StrokePath script API kind corrected: textureOffset
+api/components/strokepath: StrokePath script API + textureRotation
+api/components/strokepath: StrokePath script API kind corrected: textureScale
+api/components/strokepath: StrokePath script API kind corrected: textureTiling
+api/components/strokepath: StrokePath script API kind corrected: thickness
+api/components/strokepath: StrokePath script API kind corrected: useTexture
+api/components/textinput: TextInput.focused added
+api/components/textinput: TextInput.justSubmitted added
+api/components/textinput: TextInput script API kind corrected: backgroundColor
+api/components/textinput: TextInput script API kind corrected: borderColor
+api/components/textinput: TextInput script API kind corrected: borderWidth
+api/components/textinput: TextInput script API kind corrected: clearOnSubmit
+api/components/textinput: TextInput script API kind corrected: cornerRadius
+api/components/textinput: TextInput script API kind corrected: focused
+api/components/textinput: TextInput script API kind corrected: fontFamily
+api/components/textinput: TextInput script API kind corrected: fontSize
+api/components/textinput: TextInput script API kind corrected: height
+api/components/textinput: TextInput script API kind corrected: justSubmitted
+api/components/textinput: TextInput script API kind corrected: maxLength
+api/components/textinput: TextInput script API kind corrected: padding
+api/components/textinput: TextInput script API kind corrected: placeholder
+api/components/textinput: TextInput script API kind corrected: placeholderColor
+api/components/textinput: TextInput script API kind corrected: textColor
+api/components/textinput: TextInput script API kind corrected: value
+api/components/textinput: TextInput script API kind corrected: width
+api/components/textrenderer: TextRenderer script API kind corrected: align
+api/components/textrenderer: TextRenderer script API kind corrected: anchorX
+api/components/textrenderer: TextRenderer script API kind corrected: anchorY
+api/components/textrenderer: TextRenderer script API kind corrected: bold
+api/components/textrenderer: TextRenderer script API kind corrected: color
+api/components/textrenderer: TextRenderer script API kind corrected: fontFamily
+api/components/textrenderer: TextRenderer script API kind corrected: fontSize
+api/components/textrenderer: TextRenderer script API kind corrected: italic
+api/components/textrenderer: TextRenderer script API kind corrected: opacity
+api/components/textrenderer: TextRenderer script API kind corrected: screenSpace
+api/components/textrenderer: TextRenderer script API kind corrected: value
+api/components/textrenderer: TextRenderer script API kind corrected: wordWrap
+api/components/textrenderer: TextRenderer script API kind corrected: wrapWidth
+api/components/transform: Transform script API kind corrected: position
+api/components/transform: Transform script API kind corrected: rotation
+api/components/transform: Transform script API + scale
+api/components/transform: Transform: removed non-exposed script API entries scaleX, scaleY
+concepts/architecture: text fix 'standalone runtime directory/'

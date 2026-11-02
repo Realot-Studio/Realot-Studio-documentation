@@ -1,0 +1,9 @@
+<!--meta {"title": "Live updates", "description": "How the hosted Realot Studio website and its documentation are updated in place.", "lede": "How the hosted Realot Studio website and its documentation are updated in place."} -->
+<h2 id="browser-delivery">Browser delivery</h2>
+<p>Realot Studio is delivered as a web application. The hosted Hub, editor and runtime are loaded from the site's published files. Users do not need to download a new engine installer whenever the site owner publishes an update.</p>
+<h2 id="same-url">The website address stays the same</h2>
+<p>Publishing a new engine build replaces the files served at the existing deployment URL. The same is true of the documentation: its unversioned topic URLs point to the current published documentation.</p>
+<h2 id="browser-cache">Browser and PWA caching</h2>
+<p>A normal browser visit retrieves the published site files according to the deployment's cache headers. An installed PWA or a browser with the service worker may continue using cached files while offline. Reconnect and reload to allow the new published files to be fetched. A deployment should publish its files atomically and configure cache headers so the HTML entry points and service worker can update.</p>
+<h2 id="project-compatibility">Project compatibility is separate</h2>
+<p>Although the hosted engine is updated in place, saved project archives may contain engine compatibility metadata. When a project saved by a newer engine is opened in an older build, Realot may show a compatibility warning. That project metadata is not a documentation URL version.</p>

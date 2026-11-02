@@ -1,0 +1,10 @@
+<!--meta {"title": "Game loop & scenes", "description": "Understand frame updates, fixed physics updates and scene transitions.", "lede": "Understand frame updates, fixed physics updates and scene transitions."} -->
+<h2 id="render-frame-lifecycle">Render-frame lifecycle</h2><div class="table-wrap"><table><thead><tr><th>Hook</th><th>When it runs</th></tr></thead><tbody><tr><td>onStart()</td><td>Once before the first onUpdate().</td></tr><tr><td>onClone()</td><td>Once for runtime clones, immediately before onStart().</td></tr><tr><td>onUpdate(dt)</td><td>Every render frame.</td></tr><tr><td>onClick()</td><td>On the frame a mouse/finger press targets an entity with a collider.</td></tr><tr><td>onFixedUpdate(dt)</td><td>Fixed 60 Hz simulation cadence.</td></tr><tr><td>onDestroy()</td><td>Before the entity is removed or the scene ends.</td></tr></tbody></table></div><h2 id="collision-trigger-lifecycle">Collision &amp; trigger lifecycle</h2><p>Use <code>onCollisionEnter(other)</code>, <code>onCollisionStay(other)</code> and <code>onCollisionExit(other)</code> for physical contacts. <code>onCollision(other)</code> remains an alias for collision-enter behavior. Trigger-only callbacks are <code>onTriggerEnter(other)</code> and <code>onTriggerExit(other)</code>.</p><h2 id="scene-controls">Scene controls</h2><p>Use <code>scene.current</code> to read the current scene name, <code>scene.load(name)</code> to switch scenes, <code>scene.restart()</code> to restart, and <code>scene.pause()</code>/<code>scene.resume()</code> to freeze gameplay while leaving rendering responsive.</p><pre><code>function onTriggerEnter(other) {
+  if (other.name === "Target") scene.load("Level2");
+}
+
+function onUpdate() {
+  if (input.keyPressed("Escape")) {
+    scene.isPaused ? scene.resume() : scene.pause();
+  }
+}</code></pre><h2 id="pause-semantics">Pause semantics</h2><p>During <code>scene.pause()</code>, physics, scripts, animation and audio stop advancing until resume. Rendering stays responsive, which is useful for pause menus and debugging UI.</p>

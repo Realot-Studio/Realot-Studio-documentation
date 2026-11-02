@@ -1,0 +1,23 @@
+<!--meta {"title": "The Realot Hub", "description": "Use Projects to create and reopen games, and Learn to open the built-in guide.", "lede": "Use Projects to create and reopen games, and Learn to open the built-in guide."} -->
+<h2 id="overview">Overview</h2>
+<p>The Hub is the Realot Studio home screen. It is the starting point for opening projects, creating a new game from a template, and opening the built-in learning material. The current Hub has two views: <strong>Projects</strong> and <strong>Learn</strong>.</p>
+<div class="table-wrap"><table><thead><tr><th>View</th><th>What it does</th></tr></thead><tbody>
+<tr><td>Projects</td><td>Shows your saved project cards. Start with a template, create a blank project, search/sort your projects, switch between grid and list layouts, or reopen a recent project.</td></tr>
+<tr><td>Learn</td><td>Opens the Hub's learning area. The built-in quick guide is part of the engine distribution and can be cached for offline access.</td></tr>
+</tbody></table></div>
+<h2 id="templates">Starter templates</h2>
+<p>The current template gallery includes:</p>
+<div class="table-wrap"><table><thead><tr><th>Template</th><th>Starting point</th></tr></thead><tbody>
+<tr><td>Blank Canvas</td><td>An empty project for custom 2D scenes and logic.</td></tr>
+<tr><td>Platformer Kit</td><td>A platformer starter with a kinematic character controller and one-way platforms.</td></tr>
+<tr><td>Top-Down</td><td>A top-down starter with a player, NPCs, collectibles and a dungeon scene.</td></tr>
+<tr><td>Flappy Bird</td><td>A flap-to-fly starter with scoring and a simple game-state flow.</td></tr>
+<tr><td>Sky Jumper</td><td>An endless jumping starter with platforms, stars and a following camera.</td></tr>
+<tr><td>Physics Sandbox</td><td>A scene for experimenting with Rapier2D bodies, colliders and joints.</td></tr>
+</tbody></table></div>
+<h2 id="browser-install">Install the Hub as an app</h2>
+<p>Realot is a web application. On browsers and deployments that support installation, the title bar can show an <strong>Install app</strong> action when the browser confirms the site is installable. Installation creates an app-like shortcut; it does not download a separate engine release. The service worker can cache the Hub, editor and runtime for supported offline use.</p>
+<p>Updates are published to the hosted site. When the browser is online, reload the site to receive the current published files. An installed PWA may continue using cached files while offline and will need to reconnect to refresh them.</p>
+<h2 id="project-files">Project files</h2>
+<p><strong>File → Save Project</strong> downloads your project as a <code>.realot</code> file. This is Realot Studio's portable project format and includes the scenes, assets, prefabs, tags, navigation-area names and scripts needed to continue editing the game.</p>
+<p><strong>Open a project from your computer:</strong> install Realot Hub as a PWA in a supported desktop browser. Then double-click a downloaded <code>.realot</code> file in your file manager. The operating system opens the installed Realot app, and Realot loads that project in the editor. When asked, you can allow Realot to keep saving changes back to that same file. This file-opening behavior requires an installed PWA and browser/operating-system support for web-app file handling; if that option is unavailable, open the editor and use <strong>File → Load Project</strong>.</p>

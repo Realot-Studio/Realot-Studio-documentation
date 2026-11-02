@@ -1,0 +1,19 @@
+<!--meta {"title": "Timers, state & messaging", "description": "wait()/repeat() timers, the built-in this.state machine, and sendMessage/broadcastMessage.", "lede": "wait()/repeat() timers, the built-in this.state machine, and sendMessage/broadcastMessage."} -->
+<h2 id="timers">Timers</h2><p>Timers run on game time, so <a href="time-scale.html"><code>time.scale</code></a> speeds them up, slows them down or freezes them. To animate a property over time use <a href="tween.html"><code>tween()</code></a> instead of hand-written timers.</p><div class="table-wrap"><table><thead><tr><th>API</th><th>Meaning</th></tr></thead><tbody><tr><td>wait(seconds, callback)</td><td>Runs callback once after seconds of game time. this inside the callback is the same entity that called wait(). Returns a timer id for cancelWait(id). Also available as this.wait(...).</td></tr><tr><td>repeat(seconds, callback)</td><td>Runs callback every seconds, forever, until cancelled, the entity is destroyed, or the scene restarts/switches. The first call happens seconds from now, then every seconds after.</td></tr><tr><td>cancelWait(id) / cancelRepeat(id)</td><td>Stop a pending timer before it fires. Safe to call with an id that already fired or was already cancelled.</td></tr></tbody></table></div><div class="callout info"><strong>Timers are entity-owned</strong><div>Timers are automatically cancelled if their entity is destroyed, or if the scene restarts/switches before they fire — a wait() never fires "late" against a scene that’s already gone.</div></div><h2 id="state-machine">State machine</h2><p><code>this.state</code> needs no component — it works on every entity automatically. <code>this.state.current</code>/<code>this.state.previous</code> give the current/previous state name (current defaults to <code>"default"</code>). <code>this.state.change(name)</code> fires <code>onStateExit()</code> for the outgoing state, then <code>onStateEnter()</code> for the new one.</p><pre><code>function onUpdate() {
+  if (this.isGrounded &amp;&amp; this.state.current !== "idle") {
+    this.state.change("idle");
+  }
+}
+
+function onStateEnter() {
+  if (this.state.current === "idle") this.animator.play("Idle");
+  if (this.state.previous === "jump") debug.log("Landed!", "");
+}</code></pre><h2 id="messaging">Messaging</h2><p><code>sendMessage(tagOrEntity, message, data)</code> accepts either a tag string (messages every entity with that tag — a group broadcast) or an EntityContext directly (messages that one exact entity, unambiguous even if others share its name/tag). <code>broadcastMessage(message, data)</code> sends to every scene entity.</p><pre><code>function onCollisionEnter(other) {
+  sendMessage("Enemy", "targetNearby", { x: this.x, y: this.y });
+}
+
+function onMessage(message, sender, data) {
+  if (message === "targetNearby") {
+    this.navMoveToward(data.x, data.y, 80);
+  }
+}</code></pre>

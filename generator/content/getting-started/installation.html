@@ -1,0 +1,14 @@
+<!--meta {"title": "Use Realot Studio", "description": "Realot Studio is a browser-based engine. Open the hosted site; local hosting is optional.", "lede": "Realot Studio is a browser-based engine. Open the hosted site; local hosting is optional."} -->
+<h2 id="normal-use">Normal use: open the website</h2>
+<div class="callout info"><strong>No engine installer is required</strong><div>Realot Studio runs as a browser application. Open the hosted Realot site in a modern browser and use the Hub to create or open a project. The editor and runtime are delivered as web files; you do not need to download a separate engine installer to use the hosted version.</div></div>
+<p>When the engine owner publishes an update to the hosted site, the new files are available from the same website address. A normal page reload while online retrieves the published files. A previously installed PWA can continue using cached assets offline until it reconnects and refreshes.</p>
+<h2 id="pwa">Optional browser installation</h2>
+<p>On a supported browser and deployment, choose the Hub's <strong>Install app</strong> action or use the browser's own install option. This adds an app-like launcher entry. It is still the same web application and does not create a separate downloadable engine release.</p>
+<h2 id="self-host">Optional: host the engine yourself</h2>
+<p>The supplied engine project is a static web application. To preview a local copy or publish your own deployment, serve the project folder over HTTP(S). For a quick local preview, run this command from the folder containing the engine files:</p>
+<pre><code>python3 -m http.server 5000</code></pre>
+<p>Then open <code>http://localhost:5000/</code>. Do not open the main HTML file directly with <code>file://</code>; browser module, fetch and WebAssembly loading require an HTTP origin.</p>
+<h2 id="browser-requirements">Browser requirements</h2>
+<ul><li>A modern browser with JavaScript modules and WebAssembly.</li><li>Canvas/WebGL support for the renderer.</li><li>Browser storage for project data and preferences.</li><li>HTTPS for production deployments that need secure browser APIs or PWA installation (localhost is treated as secure for development).</li></ul>
+<h2 id="android">Android APK export</h2>
+<p>Android APK export is separate from normal browser use. Realot packages the game in the browser and sends the standalone web export to the configured Android build service. The editor does not run Android Studio, Gradle or an Android SDK locally. See <a href="../export/android.html">Android APK export</a> for the current workflow.</p>

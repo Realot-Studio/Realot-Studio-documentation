@@ -1,0 +1,13 @@
+<!--meta {"title": "Build your first game", "description": "A practical first-game path using entities, components and a simple script.", "lede": "A practical first-game path using entities, components and a simple script."} -->
+<h2 id="1-start-with-a-scene">1. Start with a scene</h2><p>Create a scene and add an entity. The editor stores scene state as JSON-compatible data: entities have IDs, names, tags, active state, optional hierarchy folders/prefab metadata, and a component map.</p><h2 id="2-add-a-visual">2. Add a visual</h2><p>Attach a <code>SpriteRenderer</code> and assign a sprite asset, or use a <code>ShapeRenderer</code> when you want a procedural primitive. Add a <code>Camera</code> and mark one camera as the main camera.</p><h2 id="3-add-physics-when-you-need-it">3. Add physics when you need it</h2><p>A typical physics actor uses a <code>Rigidbody2D</code> plus a <code>Collider2D</code>. Choose Dynamic, Kinematic or Static based on who is responsible for movement.</p><h2 id="4-add-a-script-component">4. Add a Script component</h2><p>Put a script on the entity and define lifecycle functions. Realot Studio calls <code>onStart()</code> once and <code>onUpdate(dt)</code> every render frame.</p><pre><code>function onStart() {
+  this.speed = 220;
+}
+
+function onUpdate(dt) {
+  if (input.keyDown("ArrowRight")) {
+    this.x += this.speed * dt;
+  }
+  if (input.keyDown("ArrowLeft")) {
+    this.x -= this.speed * dt;
+  }
+}</code></pre><h2 id="5-prefer-frame-rate-independent-movement">5. Prefer frame-rate-independent movement</h2><p>Use <code>time.deltaTime</code> (or the <code>dt</code> lifecycle argument) when movement is expressed in units per second. Keep physics-step work in <code>onFixedUpdate(dt)</code> when the logic should track the fixed simulation cadence.</p><h2 id="6-run-iterate-export">6. Run, iterate, export</h2><p>Use the editor’s Play flow to test, inspect the Debug HUD when diagnosing runtime behavior, then use <strong>Export</strong> for HTML5, PWA or Android APK.</p>

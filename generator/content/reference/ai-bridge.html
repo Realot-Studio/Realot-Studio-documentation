@@ -1,0 +1,50 @@
+<!--meta {"title": "AI Bridge: connect an AI assistant", "description": "Connect an MCP-compatible AI app to the open Realot Studio editor using the built-in shared relay, with optional self-hosting, read-only mode and a complete source-derived tool catalog.", "lede": "Connect an AI assistant to the project you have open in Realot Studio. The shared relay is already configured; copy your private link into an AI app that supports remote MCP connectors, then connect."} -->
+<div class="callout info"><strong>Built in and ready to use</strong><div>Realot Studio includes a shared relay address. Most users do not need to install Node.js, configure a local server, create a Cloudflare account or deploy anything. Open AI Bridge, copy the private link into an AI app that supports remote MCP connectors, and press Connect in Realot.</div></div>
+<h2 id="connect">Connect your AI assistant</h2>
+<ol>
+<li>Open your project in Realot Studio and click <strong>AI Bridge</strong> in the editor.</li>
+<li>Click <strong>Copy link</strong> in the panel.</li>
+<li>In your AI app, open its connector or MCP-server settings. Add a <strong>remote MCP server</strong> or <strong>custom connector</strong>, paste the copied link, and name it <strong>Realot</strong>. The exact menu name depends on the AI app.</li>
+<li>Return to Realot and click <strong>Connect</strong>. The panel should show <strong>Connected</strong>. Ask the AI to inspect the open project before asking it to make changes.</li>
+</ol>
+<p>The copied link contains a private secret key. Treat it like a password: anyone who has the link may be able to use the tools exposed by your open editor. Do not post it in public messages or commit it to a project repository.</p>
+<h2 id="panel-options">AI Bridge panel options</h2>
+<div class="table-wrap"><table><thead><tr><th>Option</th><th>What it does</th></tr></thead><tbody>
+<tr><td><strong>Copy link</strong></td><td>Copies the private remote MCP connector URL for this editor.</td></tr>
+<tr><td><strong>Connect / Disconnect</strong></td><td>Starts or closes the editor's connection to the relay. The editor must remain open while the AI works on the live project.</td></tr>
+<tr><td><strong>Read-only</strong></td><td>Blocks tools that change the project. The AI can inspect the editor but cannot perform supported edit operations while this is enabled.</td></tr>
+<tr><td><strong>Connect automatically when the editor opens</strong></td><td>Remembers the preference and reconnects on a later editor launch when a private key is already configured.</td></tr>
+<tr><td><strong>Make a new private link</strong></td><td>Creates a new secret key and invalidates the old link. Add the new link to your AI app; the old connector URL will no longer authenticate.</td></tr>
+<tr><td><strong>Need more AI time? → click here to host it</strong></td><td>Opens Cloudflare's deployment flow for an optional personal copy of the relay. This is not needed for the built-in shared relay.</td></tr>
+<tr><td><strong>Use it / Default</strong></td><td><em>Use it</em> switches to the relay URL you supplied and refreshes the connector link. <em>Default</em> switches back to Realot's built-in shared relay. Re-copy the connector link after changing relay addresses.</td></tr>
+</tbody></table></div>
+<h2 id="shared-relay-limit">Shared relay time allowance</h2>
+<p>The built-in shared relay includes <strong>30 minutes of active AI work in each 24-hour usage window</strong>. Time is counted while a tool call is running and for up to 20 seconds between calls. Being connected while the AI is idle does not use the allowance. The panel shows the remaining time and the reset countdown.</p>
+<p>The usage record is kept in this browser's local storage. It is a client-side allowance display and should not be treated as an account-wide quota or a tamper-proof billing record. Hosting your own relay removes the shared-relay active-time limit; Cloudflare account usage and service terms may still apply.</p>
+<h2 id="host-your-own-relay">Optional: host a personal relay</h2>
+<p>Most users should stay on the built-in relay. Hosting your own is an advanced option for users who want to avoid the shared-relay time allowance or operate their own relay endpoint.</p>
+<ol>
+<li>In the AI Bridge panel, select <strong>click here to host it</strong>. Realot opens the Cloudflare deployment page for the relay source repository.</li>
+<li>Complete Cloudflare's deployment and copy the HTTPS address ending in <code>.workers.dev</code>.</li>
+<li>Paste that address into the relay field in the AI Bridge panel and click <strong>Use it</strong>.</li>
+<li>Click <strong>Copy link</strong> again and replace the old Realot connector URL in your AI app. Connect from the editor.</li>
+</ol>
+<p>To return to the shared relay, click <strong>Default</strong>, copy the refreshed link, and update the connector in your AI app. A personal relay has no Realot active-AI-minutes cap, but you are responsible for its deployment, availability and Cloudflare account.</p>
+<h2 id="what-the-ai-can-do">What the AI can do</h2>
+<p>The built-in relay currently exposes <strong>93 MCP tools</strong>. They allow an AI app to inspect editor state, scenes and entities; create and modify entities and components; read, write and attach scripts; start or pause play mode; inspect the Console and capture a screenshot; manage assets and chunked uploads; edit animation clips and frames; manage tilesets and tilemaps; paint navigation cells and configure navigation and physics layers; manage tags, folders, prefabs and scenes; save or export project data; and control editor panels and tools.</p>
+<p>The tables below list every hosted tool name and its input fields. Fields shown in bold are required. Full JSON input schemas—including exact types, constraints and additional properties—are published in the <a href="../../api/index.json">machine-readable API catalog</a> under <code>aiBridge.sharedRelayTools</code>.</p>
+<h2 id="supported-tool-catalog">Complete hosted MCP tool catalog</h2>
+<!--AI_BRIDGE_TOOLS-->
+<h2 id="safe-use">Safe and reliable use</h2>
+<ul>
+<li>Start with project inspection. Ask the AI to identify the active scene, selected objects and relevant components before it edits anything.</li>
+<li>Use <strong>Read-only</strong> when you only want explanations or an audit.</li>
+<li>Ask the AI to make a small change first, then inspect the result in the editor and test it in Play mode.</li>
+<li>Use undo for supported scene edits. Do not assume every operation—especially script writes, project-file operations or scene-list changes—can be reversed in the same way. Save a project backup before large edits.</li>
+<li>Review generated JavaScript. Project scripts execute as browser page code and are not an isolated security sandbox. Do not run untrusted scripts or import project archives from sources you do not trust.</li>
+<li>Tool results may contain project names, scenes, scripts, assets and Console output. These are sent to the connected AI app; use an AI provider you trust and avoid connecting projects containing secrets or private data.</li>
+<li>Disconnect when finished and keep the private connector URL secret. Use <strong>Make a new private link</strong> if you think the link has been exposed.</li>
+</ul>
+<h2 id="local-companion-status">About the included local MCP companion source</h2>
+<p>The engine archive also contains a Node.js stdio companion under <code>mcp-bridge/</code> and an editor integration module under <code>project/editor/mcp/EditorBridge.js</code>. In this supplied build, that editor integration's installer is not called by the editor startup path. The local companion is therefore not a supported, ready-to-connect alternative in the packaged editor. Use the built-in shared relay described above. Developers who want a local stdio integration must first wire and test the companion against the editor; its 23 local tool definitions are not the same interface as the 80 tools exposed by the live shared relay.</p>
+<p class="callout info"><strong>For AI clients and coding agents</strong> Start with <a href="llm-guide.html">For AI assistants &amp; LLMs</a>, then read the <a href="../api/script-modules.html">script-module reference</a> and <a href="../scripting/globals.html">global runtime API</a> when generating game scripts. AI Bridge tools edit the editor; script APIs run inside the game. They are different interfaces.</p>

@@ -1,0 +1,139 @@
+# Realot Studio documentation
+
+> Realot Studio is a browser-based 2D game engine with a visual editor, JavaScript gameplay scripting, PixiJS rendering and Rapier2D physics. The hosted engine and its documentation are published in place; there are no versioned documentation paths.
+
+## Start here when you only have the documentation URL
+
+Treat the directory containing this file as the documentation site root. Keep any deployment prefix (for example a GitHub Pages repository path) when resolving these relative paths.
+
+1. Fetch `llms.txt` at the documentation root. You do not need to know any guide or API page path in advance.
+2. Send the user question as a URL-encoded `q` parameter to `api/search?q=...`. This endpoint ranks the full documentation index and returns the closest matching pages with their titles, snippets, relevance scores and relative URLs.
+3. Fetch the top result URLs returned by the search endpoint. Use those returned URLs exactly; do not guess page paths. For exact API questions, also retrieve `api/index.json`.
+4. For broad questions, fetch `llms-full.txt`. For a manual fallback, fetch `search-index.json` and rank its records by title, description, headings, keywords and full page content.
+
+The human-facing `search.html` uses the same ranked search endpoint when it is deployed on Cloudflare Pages. The browser search falls back to the local full-text index if the endpoint is unavailable.
+
+## Get started
+
+- [Realot Studio documentation](docs/index.html): Source-aligned documentation for Realot Studio: editor workflows, scripting API, components, physics, navigation and export.
+- [Use Realot Studio](docs/getting-started/installation.html): Realot Studio is a browser-based engine. Open the hosted site; local hosting is optional.
+- [The Realot Hub](docs/getting-started/hub.html): Use Projects to create and reopen games, and Learn to open the built-in guide.
+- [Build your first game](docs/getting-started/first-game.html): A practical first-game path using entities, components and a simple script.
+- [Scripting quickstart](docs/getting-started/scripting.html): Learn the Realot Studio JavaScript scripting model in one page.
+
+## Concepts
+
+- [Architecture](docs/concepts/architecture.html): How Realot Studio separates runtime, editor, standalone runtime, components and systems.
+- [Entities & components](docs/concepts/entities-components.html): Understand Realot Studio scene entities, IDs, tags, component composition and runtime cloning.
+- [Game loop & scenes](docs/concepts/game-loop-scenes.html): Understand frame updates, fixed physics updates and scene transitions.
+- [Coordinate system & conventions](docs/reference/coordinate-system.html): The signs, units, axes, rotation conventions and reference-resolution rules that prevent common Realot Studio scripting mistakes.
+
+## Editor
+
+- [Editor overview](docs/editor/overview.html): Navigate the Realot Studio editor and understand the main development surfaces.
+- [Editor controls & exact locations](docs/editor/controls.html): Exact Realot Studio UI paths, panel positions, keyboard shortcuts, conditional tools, and where feature-specific buttons live.
+- [Editor settings and configuration](docs/editor/settings.html): Complete reference for the editor menus, panel visibility, physics layers, navigation areas, Inspector notes, saving preferences and performance defaults.
+- [Hierarchy & Inspector](docs/editor/hierarchy-inspector.html): Organize the current scene and edit entities/components with stable serialized data.
+- [Scenes & projects](docs/editor/scenes-projects.html): Save, load, switch, duplicate and serialize Realot Studio scenes and project manifests.
+- [Assets & animation](docs/editor/assets-animation.html): Use sprites, animation clips and audio assets from the editor.
+- [Prefab workflow](docs/editor/prefabs.html): Create, place, edit, update, revert and unpack Realot Studio prefabs with the exact editor controls involved.
+- [Physics authoring](docs/editor/physics.html): Configure rigid bodies, colliders, joints, layers and one-way platforms.
+- [Navigation authoring](docs/editor/navigation.html): Bake 2D navigation with NavWorld2D and configure NavAgent2D.
+- [Lighting, audio & UI](docs/editor/lighting-audio-ui.html): Build atmospheric scenes, sound behavior and responsive UI with Realot Studio components.
+- [Tilemaps & tilesets](docs/editor/tilemaps.html): Author sparse tile grids and 16-role autotile tilesets.
+- [Components: complete workflow](docs/editor/component-workflows.html): A complete guide to adding, configuring, testing, removing, and scripting components. This page complements each individual component reference; it does not…
+- [Complete feature workflows](docs/editor/complete-feature-workflows.html): Use these pages when you need to build an entire subsystem, not just understand one property. Each workflow starts with prerequisites and editor locations,…
+
+## Scripting
+
+- [Lifecycle](docs/scripting/lifecycle.html): Complete Realot Studio script lifecycle and callback reference.
+- [Global scripting API](docs/scripting/globals.html): Reference for every built-in global function and service object available inside Realot Studio scripts.
+- [Tween API](docs/scripting/tween.html): Animate numeric properties smoothly with tween(), choose from 33 easing curves, and stop animations with cancelTween().
+- [Time scale & game speed](docs/scripting/time-scale.html): Slow motion, speed-up and freeze with time.scale, plus time.deltaTime, time.unscaledDeltaTime and time.elapsed.
+- [Entity context](docs/scripting/entity-context.html): Reference the `this` object and entity-aware shortcuts available in Realot Studio scripts.
+- [Entity shortcuts (this.x, this.transform)](docs/scripting/entity-shortcuts.html): What this is inside a script, which properties are flat shortcuts, and which require a specific component.
+- [Finding & spawning entities](docs/scripting/finding-entities.html): The find/findAll/findWithTag family, plus spawn() for runtime-instantiated clones.
+- [Input](docs/scripting/input.html): Keyboard, mouse, touch, gestures and virtual joystick input in Realot Studio.
+- [Physics & navigation scripting](docs/scripting/physics.html): Use Rigidbody2D, Collider2D, raycasts and NavWorld2D from game scripts.
+- [Collisions & triggers](docs/scripting/collisions.html): onCollisionEnter/Stay/Exit, onTriggerEnter/Exit, the other parameter, and physics layers from script.
+- [Pathfinding & NavWorld2D](docs/scripting/navigation.html): navMoveToward, nav.findPath, named areas and per-area cost, and multi-agent avoidance.
+- [Navigation: complete setup](docs/scripting/navigation-complete.html): Build, paint, name, script, tune, debug, and ship a complete Realot Studio navigation setup without skipping the hard parts.
+- [State & messaging](docs/scripting/state-messaging.html): Build lightweight state machines and decoupled entity communication.
+- [Timers, state & messaging](docs/scripting/timers-state.html): wait()/repeat() timers, the built-in this.state machine, and sendMessage/broadcastMessage.
+- [Persistence](docs/scripting/persistence.html): Use transient global state and durable IndexedDB saves.
+- [Save data](docs/scripting/saving.html): The save global: get/set/delete, save slots, and flushing writes.
+- [Errors & debugging](docs/scripting/errors.html): How script errors are classified and reported, and the on-screen debug HUD.
+- [Script API cookbook](docs/scripting/api-cookbook.html): Concrete Realot Studio script examples with setup, placement, required components, options, expected behavior, and common mistakes.
+
+## API reference
+
+- [API reference](docs/api/index.html): Complete Realot Studio component, script-module and runtime API reference.
+- [Runtime modules and global API](docs/api/runtime.html): Index of global functions and objects supplied to gameplay scripts in Realot Studio.
+- [Complete script module member index](docs/api/script-modules.html): Complete source-verified member list for every script API module exposed by Realot Studio, including global utility modules and entity component APIs.
+- [this (EntityContext) reference](docs/api/this.html): Complete reference for the current entity context, all flat shortcuts, pointer/touch helpers, navigation methods and per-entity script modules.
+- [Option schemas & opts](docs/api/options.html): Exact option objects, types, defaults and semantics for the most important Realot Studio APIs, with machine-readable JSON for tooling and LLMs.
+- [API requirements & complete usage map](docs/api/requirements.html): Complete prerequisites and usage map for Realot Studio scripting APIs.
+
+## Export & deploy
+
+- [Export overview](docs/export/index.html): Choose a standalone web export or the built-in Android APK build workflow.
+- [HTML5 and PWA export](docs/export/web.html): Create a standalone HTML5 game or a PWA with a manifest and service worker.
+- [Export window reference](docs/export/export-window.html): Understand the game title, favicon, export formats, build progress and Android APK quota.
+- [Export an Android APK](docs/export/android.html): Build an Android APK directly from the Realot Studio Export window. The current editor allows three APK exports in a rolling 14-day period.
+
+## Reference
+
+- [Tuning guide](docs/reference/tuning-guide.html): Practical “increase/decrease this” rules for movement, physics, navigation, lighting, UI and path authoring.
+- [Scene JSON](docs/reference/scene-format.html): Reference the Realot Studio scene serialization format.
+- [Project format](docs/reference/project-format.html): Understand the portable .realot archive and the difference between editable projects and standalone game exports.
+- [Engine conventions (RULES.txt)](docs/reference/rules.html): The architectural rules that govern how Realot Studio’s own codebase is organized.
+- [Debugging](docs/reference/debugging.html): Diagnose common Realot Studio runtime and authoring problems.
+- [Security and play origin](docs/reference/security.html): Understand the script trust boundary and why shared projects should run on a separate origin.
+- [Live updates](docs/reference/live-updates.html): How the hosted Realot Studio website and its documentation are updated in place.
+- [Source map & verification](docs/reference/source-map.html): A source-grounded map of where Realot Studio’s public behavior and editor controls are actually implemented.
+
+## AI & machine access
+
+- [AI Bridge: connect an AI assistant](docs/reference/ai-bridge.html): Connect an MCP-compatible AI app to the open Realot Studio editor using the built-in shared relay, with optional self-hosting, read-only mode and a complete…
+- [AI assistants and documentation search](docs/reference/ai-crawling.html): How people and AI tools can find accurate Realot Studio documentation from the documentation URL alone.
+- [Realot Studio reference for AI assistants](docs/reference/llm-guide.html): Practical rules for AI assistants that explain, script, debug and extend Realot Studio projects accurately.
+
+## Components
+
+- [Transform](docs/api/components/transform.html): Realot Studio Transform component reference: fields, script API, behavior and examples.
+- [SpriteRenderer](docs/api/components/spriterenderer.html): Realot Studio SpriteRenderer component reference: fields, script API, behavior and examples.
+- [ShapeRenderer](docs/api/components/shaperenderer.html): Realot Studio ShapeRenderer component reference: fields, script API, behavior and examples.
+- [TextRenderer](docs/api/components/textrenderer.html): Realot Studio TextRenderer component reference: fields, script API, behavior and examples.
+- [StrokePath](docs/api/components/strokepath.html): Realot Studio StrokePath component reference: fields, script API, behavior and examples.
+- [SpeechBubble](docs/api/components/speechbubble.html): Realot Studio SpeechBubble component reference: fields, script API, behavior and examples.
+- [ChatLog](docs/api/components/chatlog.html): Realot Studio ChatLog component reference: fields, script API, behavior and examples.
+- [TextInput](docs/api/components/textinput.html): Realot Studio TextInput component reference: fields, script API, behavior and examples.
+- [Joystick](docs/api/components/joystick.html): Realot Studio Joystick component reference: fields, script API, behavior and examples.
+- [Rigidbody2D](docs/api/components/rigidbody2d.html): Realot Studio Rigidbody2D component reference: fields, script API, behavior and examples.
+- [Collider2D](docs/api/components/collider2d.html): Realot Studio Collider2D component reference: fields, script API, behavior and examples.
+- [Joint2D](docs/api/components/joint2d.html): Realot Studio Joint2D component reference: fields, script API, behavior and examples.
+- [CharacterController](docs/api/components/charactercontroller.html): Realot Studio CharacterController component reference: fields, script API, behavior and examples.
+- [SpriteAnimation](docs/api/components/spriteanimation.html): Realot Studio SpriteAnimation component reference: fields, script API, behavior and examples.
+- [Camera](docs/api/components/camera.html): Realot Studio Camera component reference: fields, script API, behavior and examples.
+- [AudioSource](docs/api/components/audiosource.html): Realot Studio AudioSource component reference: fields, script API, behavior and examples.
+- [AudioListener](docs/api/components/audiolistener.html): Realot Studio AudioListener component reference: fields, script API, behavior and examples.
+- [Light](docs/api/components/light.html): Realot Studio Light component reference: fields, script API, behavior and examples.
+- [ShadowCaster](docs/api/components/shadowcaster.html): Realot Studio ShadowCaster component reference: fields, script API, behavior and examples.
+- [LightingSettings](docs/api/components/lightingsettings.html): Realot Studio LightingSettings component reference: fields, script API, behavior and examples.
+- [NavAgent2D](docs/api/components/navagent2d.html): Realot Studio NavAgent2D component reference: fields, script API, behavior and examples.
+- [NavWorld2D](docs/api/components/navworld2d.html): Realot Studio NavWorld2D component reference: fields, script API, behavior and examples.
+- [Tileset](docs/api/components/tileset.html): Realot Studio Tileset component reference: fields, script API, behavior and examples.
+- [Tilemap](docs/api/components/tilemap.html): Realot Studio Tilemap component reference: fields, script API, behavior and examples.
+- [Script](docs/api/components/script.html): Realot Studio Script component reference: fields, script API, behavior and examples.
+
+## Machine-readable resources
+
+- [Full documentation](llms-full.txt)
+- [Question search endpoint](api/search?q=your%20question)
+- [Full-text search index](search-index.json)
+- [Engine API catalog](api/index.json)
+- [Complete script-module reference](docs/api/script-modules.html)
+- [API catalog manifest](api/manifest.json)
+- [AI Bridge tool schemas](api/index.json#aiBridge)
+- [HTML site map](sitemap.html)
+- [XML site map](sitemap.xml)

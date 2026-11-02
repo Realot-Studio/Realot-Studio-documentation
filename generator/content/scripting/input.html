@@ -1,0 +1,39 @@
+<!--meta {"title": "Input", "description": "Keyboard, mouse, touch, gestures and virtual joystick input in Realot Studio.", "lede": "Keyboard, mouse, touch, gestures and virtual joystick input in Realot Studio."} -->
+<h2 id="keyboard">Keyboard</h2><p><code>input.keyDown(code)</code> is true while a key is held. <code>input.keyPressed(code)</code> is a one-frame pulse. Browser-style codes include <code>ArrowLeft</code>, <code>ArrowRight</code>, <code>KeyA</code>, <code>Space</code> and the special code <code>Any</code>.</p><pre><code>function onUpdate() {
+  var speed = 200 * time.deltaTime;
+  if (input.keyDown("ArrowRight") || input.keyDown("KeyD")) this.x += speed;
+  if (input.keyDown("ArrowLeft")  || input.keyDown("KeyA")) this.x -= speed;
+
+  if (input.keyPressed("Space")) {
+    this.controller.simulateJump(); // one-frame pulse — fires once per press, not every frame held
+  }
+}</code></pre><h2 id="mouse">Mouse</h2><div class="table-wrap"><table><thead><tr><th>API</th><th>Semantics</th></tr></thead><tbody><tr><td>mouse.x / mouse.y</td><td>World-space cursor position.</td></tr><tr><td>mouse.screenX / mouse.screenY</td><td>Raw canvas-pixel cursor position.</td></tr><tr><td>mouse.down(button)</td><td>Held button; 0 left, 1 middle, 2 right.</td></tr><tr><td>mouse.pressed(button)</td><td>Pressed this frame.</td></tr><tr><td>mouse.released(button)</td><td>Released this frame.</td></tr><tr><td>mouse.isOver(target)</td><td>Shape-accurate entity hit test.</td></tr><tr><td>mouse.clickedOn(target)</td><td>Hit test + pressed pulse.</td></tr></tbody></table></div><pre><code>function onUpdate() {
+  if (mouse.clickedOn(this.name)) {
+    this.destroy(); // click this entity to pop it
+  }
+  // or, from inside the entity’s own script:
+  if (this.isClicked) {
+    this.sprite.opacity = 0.5;
+  }
+}</code></pre><h2 id="touch">Touch</h2><p>The global <code>touch</code> surface is array-like. Each active touch has <code>id</code>, world/screen coordinates, start coordinates, <code>dx</code>, <code>dy</code>, <code>distance</code>, <code>justStarted</code> and <code>justEnded</code>.</p><pre><code>function onUpdate() {
+  for (var t of touch) {
+    if (t.justStarted) {
+      debug.log("Touch " + t.id, t.x + ", " + t.y);
+    }
+  }
+  if (touch.tappedOn(this.name)) {
+    this.spawn("Explosion", { x: this.x, y: this.y });
+  }
+}</code></pre><h2 id="gestures">Gestures</h2><div class="table-wrap"><table><thead><tr><th>Gesture</th><th>Properties</th></tr></thead><tbody><tr><td>touch.swipe</td><td>active, direction, dx, dy, distance; active after &gt;40 px movement.</td></tr><tr><td>touch.pinch</td><td>active, scale, delta, distance for two-finger gestures.</td></tr></tbody></table></div><pre><code>function onUpdate() {
+  if (touch.swipe.active &amp;&amp; touch.swipe.direction === "left") {
+    scene.load("NextLevel");
+  }
+  if (touch.pinch.active) {
+    this.camera.zoom *= touch.pinch.scale; // pinch-to-zoom
+  }
+}</code></pre><h2 id="virtual-joysticks">Virtual joysticks</h2><p>The Joystick component exposes normalized read-only <code>x</code>, <code>y</code>, <code>magnitude</code>, <code>angle</code> and <code>active</code> values. This works well with Car controllers and custom movement scripts.</p><pre><code>// Script attached to an entity with a Joystick component:
+function onUpdate() {
+  if (this.joystick.active) {
+    this.controller.simulateMove(this.joystick.x, this.joystick.y);
+  }
+}</code></pre>
