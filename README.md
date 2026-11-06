@@ -4,7 +4,7 @@ This is the live, source-aligned documentation website for the Realot Studio bro
 
 ## Open the documentation
 
-**https://realot-studio.pages.dev**
+**https://realot-studio-documentation.pages.dev**
 
 This is the Cloudflare Pages project URL. Start at the home page; users and AI assistants can discover every guide and API reference from there. Documentation uses stable, unversioned URLs. When the engine changes, publish the updated documentation to the same site—there is no version selector or documentation download required.
 
